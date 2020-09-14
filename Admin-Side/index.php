@@ -1,6 +1,3 @@
-<?php //include("../Config/db_config.php") ?>
-<?php //include ("adminLogin.php") ?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,16 +9,17 @@
     
     <body>
         <h1 class="adminLogin">Dummy Cinemas</h1>
+        <?php session_start(); if(!empty($_SESSION['error'])){ echo $_SESSION['error'];} else{ echo "Something";} ?>
         
-        <form action="adminLogin.php" method="post">
+        <form action="./login/adminLogin.php" method="post">
           <div class="container">
-            <label for="adminName"><b>Administrator Name</b></label>
-            <input type="text" placeholder="Enter Administrator Name" name="adminName" required>
+            <label for="email"><b>Administrator Email</b></label>
+            <input type="text" placeholder="Enter Administrator E-mail" name="email" required>
 
             <label for="password"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="password" required>
 
-            <button type="submit">Login</button>
+            <button name="login" type="submit">Login</button>
           </div>
         </form>
 
