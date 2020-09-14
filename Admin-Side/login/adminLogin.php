@@ -1,16 +1,14 @@
 <?php
-    $conn;
-    global $error1;
-    session_start();
+    include ('../../Config/db_config.php');
 
     if (isset($_POST['login'])){
         //get from login form
         $inputEmail= $_POST['email'];
         $psw= $_POST['password'];
-        //sanitation/filter
-        die($psw.$inputEmail);
-        $inputEmail= mysqli_real_escape_string($connection, $inputEmail);
-        $psw= mysqli_real_escape_string($connection, $psw);
+        
+        //sanitize form input
+        $inputEmail= mysqli_real_escape_string($conn, $inputEmail);
+        $psw= mysqli_real_escape_string($conn, $psw);
         //query the database for existing admins
         $select_query = "SELECT * FROM user WHERE user_email  = '{$inputEmail}'";
         $query = mysqli_query($conn, $select_query);
@@ -19,7 +17,6 @@
         $row = mysqli_fetch_array($query);
         $adminID = $row['user_id'];
         $adminUsername = $row['user_name'];
-        //$adminAge = $row['user_age'];
         $adminEmail = $row['user_email'];
         $adminPassword = $row['user_password'];
         $adminType = $row['user_type'];
@@ -28,12 +25,10 @@
         if(!empty ($adminUsername) && !empty($adminPassword)){
             //compare with data from input & data from database
             if($inputEmail === $adminEmail && $psw === $adminPassword){
+                $_SESSION['username'] = $adminUsername;
                 if($adminType == 'admin'){
                     $_SESSION['user_type'] = 'admin'; 
-                    
-                    
-                    header("Location: ../dashboard.php");   
-            
+                    header("Location: ../dashboard.php");
                 }
                 else if ($adminType == 'user') {
                     $_SESSION['user_type'] = 'user'; 
@@ -42,8 +37,8 @@
             }
             else{
                 $_SESSION['error'] = "<div class='alert alert-danger'><strong>ALERT!</strong> Admin Login Credential are invalid.</div>";
+                header("Location: ../index.php");
             }
         }
     }
-
 ?>
