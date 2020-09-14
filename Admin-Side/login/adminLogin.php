@@ -1,49 +1,47 @@
 <?php
-    global $connection;
+    $conn;
     global $error1;
-
+    session_start();
 
     if (isset($_POST['login'])){
-        $uname= $_POST['uname'];
-        $psw= $_POST['psw'];
+        //get from login form
+        $inputEmail= $_POST['email'];
+        $psw= $_POST['password'];
+        //sanitation/filter
+        die($psw.$inputEmail);
+        $inputEmail= mysqli_real_escape_string($connection, $inputEmail);
+        $psw= mysqli_real_escape_string($connection, $psw);
+        //query the database for existing admins
+        $select_query = "SELECT * FROM user WHERE user_email  = '{$inputEmail}'";
+        $query = mysqli_query($conn, $select_query);
         
-        $email= mysqli_real_escape_string($connection, $uname);
-        $pass= mysqli_real_escape_string($connection, $psw);
-        
-        $select_query = "SELECT * FROM pengajar WHERE email_pengajar = '{$email}'";
-        $query = mysqli_query($connection, $select_query);
-        
+        //info from database
         $row = mysqli_fetch_array($query);
-        $idp=$row['id_pengajar'];
-        $admin_uname=$row['email_pengajar'];
-        $admin_psw= $row['pass_pengajar'];
-        $us_role= $row['jawatan'];
-        $bahagian=$row['bahagian'];
+        $adminID = $row['user_id'];
+        $adminUsername = $row['user_name'];
+        //$adminAge = $row['user_age'];
+        $adminEmail = $row['user_email'];
+        $adminPassword = $row['user_password'];
+        $adminType = $row['user_type'];
         
-        if(!empty ($uname) && !empty($psw)){
+        //if username & password not empty
+        if(!empty ($adminUsername) && !empty($adminPassword)){
+            //compare with data from input & data from database
+            if($inputEmail === $adminEmail && $psw === $adminPassword){
+                if($adminType == 'admin'){
+                    $_SESSION['user_type'] = 'admin'; 
+                    
+                    
+                    header("Location: ../dashboard.php");   
             
-        if($email === $admin_uname && $pass === $admin_psw){
-            if($us_role == 1) {
-             header("Location: ./Dashboard/index.php");   
-           
+                }
+                else if ($adminType == 'user') {
+                    $_SESSION['user_type'] = 'user'; 
+                    header("Location: ../dashboard.php");
+                }
             }
-            else if ($us_role == 2){
-            header("Location: ./KBDashboard/index.php");
-            }
-           
-            $_SESSION['bahagian']= $bahagian;
-            $_SESSION['email_pengajar']= $admin_uname;
-            $_SESSION['id_pengajar']=$idp;
-        }
-        if(isset($_SESSION['email_pengajar']) &&
-    empty ($_SESSION['email_pengajar'])) {
-    header ('Location: ../index.php');
-            
-        }    
-        else{
-            $error1 ="<div class='alert alert-danger'>
-    <strong>ALERT!</strong> Admin Login Credential are invalid.
-  </div>";
+            else{
+                $_SESSION['error'] = "<div class='alert alert-danger'><strong>ALERT!</strong> Admin Login Credential are invalid.</div>";
             }
         }
     }
