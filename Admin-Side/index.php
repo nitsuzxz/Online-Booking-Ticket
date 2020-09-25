@@ -9,7 +9,7 @@
     
     <body>
         <h1 class="adminLogin">Dummy Cinemas</h1>
-        <?php session_start(); if(!empty($_SESSION['error'])){ echo $_SESSION['error'];} else{ echo "Something";} ?>
+        <?php session_start(); if(!empty($_SESSION['error'])){ echo $_SESSION['error'];}?>
         
         <form action="./login/adminLogin.php" method="post">
           <div class="container">
