@@ -30,7 +30,7 @@
 
 	  			<h2>Manage Movies</h2>		
 
-				<form class="col-8" style="margin: 0px 20px;">
+				<form class="col-8" action="./addMovie.php" method="post" style="margin: 0px 20px;">
       				<div class="form-group col-8">
         				<label for="inputName">Movie name</label>
         				<input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
@@ -88,7 +88,7 @@
 
     				<div class="form-group">
     					<p></p>
-                        <button type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
+                        <button name="addMovie" type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
       				</div>
 
                 </form>
