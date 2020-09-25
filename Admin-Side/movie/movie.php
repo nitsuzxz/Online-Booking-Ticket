@@ -31,68 +31,67 @@
 	  			<h2>Manage Movies</h2>		
 
 				<form class="col-8" style="margin: 0px 20px;">
-  				<div class="form-group col-8">
-    				<label for="inputName">Movie name</label>
-    				<input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
-  				</div>
+      				<div class="form-group col-8">
+        				<label for="inputName">Movie name</label>
+        				<input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
+      				</div>
 
-  				<div class="form-group">
-  					<div class="col-8">
-  						<label for="inputRate">Rate</label>
-   						<div class="form-group">
-      						<select class="selectpicker form-control">
-        						<option>1/5</option>
-        						<option>2/5</option>
-        						<option>3/5</option>
-        						<option>4/5</option>
-        						<option>5/5</option>
-      						</select>
-    					</div>
-  					</div>
-					</div>
+      				<div class="form-group">
+      					<div class="col-8">
+      						<label for="inputRate">Rate</label>
+       						<div class="form-group">
+          						<select class="selectpicker form-control">
+            						<option>1/5</option>
+            						<option>2/5</option>
+            						<option>3/5</option>
+            						<option>4/5</option>
+            						<option>5/5</option>
+          						</select>
+        					</div>
+      					</div>
+                    </div>
 
-  				<div class="form-group col-8">
-    				<label for="exampleFormControlTextarea1">Synopsis</label>
-    				<textarea class="form-control col-12" id="exampleFormControlTextarea1" rows="3"> </textarea>
-  				</div>
+      				<div class="form-group col-8">
+        				<label for="exampleFormControlTextarea1">Synopsis</label>
+        				<textarea class="form-control col-12" id="exampleFormControlTextarea1" rows="3"> </textarea>
+      				</div>
 
-					<div class="form-group col-8">
-        			Start Date: <input id="startDate" width="276" />
-        			End Date: <input id="endDate" width="276" />
-    			</div>
-          
-    			<script>
-        		var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-        		$('#startDate').datepicker({
-            		uiLibrary: 'bootstrap4',
-            		iconsLibrary: 'fontawesome',
-            		minDate: today,
-            		maxDate: function () {
-            			return $('#endDate').val();
-            		}
-        			});
-        		$('#endDate').datepicker({
-            		uiLibrary: 'bootstrap4',
-            		iconsLibrary: 'fontawesome',
-            		minDate: function () {
-            			return $('#startDate').val();
-            		}
-        		});
+    				<div class="form-group col-8">
+            			Start Date: <input id="startDate" width="276" />
+            			End Date: <input id="endDate" width="276" />
+        			</div>
+              
+        			<script>
+                		var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+                		$('#startDate').datepicker({
+                    		uiLibrary: 'bootstrap4',
+                    		iconsLibrary: 'fontawesome',
+                    		minDate: today,
+                    		maxDate: function () {
+                    			return $('#endDate').val();
+                    		}
+                			});
+                		$('#endDate').datepicker({
+                    		uiLibrary: 'bootstrap4',
+                    		iconsLibrary: 'fontawesome',
+                    		minDate: function () {
+                    			return $('#startDate').val();
+                    		}
+                		});
 
-    			</script>
+        			</script>
 
-    			<div class="custom-file col-8">
+        			<div class="custom-file col-8">
+      					<input type="file" class="custom-file-input" id="customFile">
+      					<label class="custom-file-label" for="customFile">Poster file</label>
+    				</div>
 
-  					<input type="file" class="custom-file-input" id="customFile">
-  					<label class="custom-file-label" for="customFile">Poster file</label>
-					</div>
+    				<div class="form-group">
+    					<p></p>
+                        <button type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
+      				</div>
 
-					<div class="form-group">
-					 <p></p>
-  				  <button type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
-  				</div>
-
-			 </form>
+                </form>
 
        <p></p>
 
