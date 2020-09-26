@@ -1,5 +1,5 @@
 <?php
-	session_start();
+  include ('../../Config/db_config.php');
 ?>
 
 <!DOCTYPE html>
@@ -28,12 +28,19 @@
   					<div class="col-8">
   						<label for="inputRate">Cinema</label>
    						<div class="form-group">
-      						<select class="selectpicker form-control">
-        						<option>GSC Mid Valley</option>
-        						<option>GSC Quill City Mall</option>
-        						<option>GSC NU Sentral</option>
-        						<option>GSC Melawati Mall</option>
-        						<option>GSC Berjaya Times Square</option>
+               <select  class="selectpicker form-control">
+                <option value='' required>Select Cinema</option>
+                  <?php
+                  
+                  $query="SELECT cinema_id, cinema_name FROM cinema ORDER BY cinema_name ASC";
+                  $res = mysqli_query($conn, $query);
+
+                  $cinemaList = mysqli_fetch_all($res, MYSQLI_ASSOC);
+                  foreach($cinemaList as $listof ){
+                    echo '<option value="'.$listof['cinema_id'].'">'.$listof['cinema_name'].'</option>';
+                  }
+                  ?>
+ 
       						</select>
     					</div>
   					</div>
@@ -47,10 +54,10 @@
   						<label for="inputRate">Hall Type</label>
    						<div class="form-group">
       						<select class="selectpicker form-control">
-        						<option>Standard Hall</option>
-        						<option>Premiere Class</option>
-        						<option>PLatinum Movie Suites</option>
-        						<option>Gold Class</option>
+        						<option value='Standard Hall'>Standard Hall</option>
+        						<option value='Premiere Class'>Premiere Class</option>
+        						<option value='Platinum Movie Suites'>Platinum Movie Suites</option>
+        						<option value='Gold Class'>Gold Class</option>
       						</select>
     					</div>
   					</div>
