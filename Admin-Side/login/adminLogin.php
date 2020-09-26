@@ -28,11 +28,11 @@
                 $_SESSION['username'] = $adminUsername;
                 if($adminType == 'admin'){
                     $_SESSION['user_type'] = 'admin'; 
-                    header("Location: ../dashboard.php");
+                    header("Location: ../dashboard/dashboard.php");
                 }
                 else if ($adminType == 'user') {
                     $_SESSION['user_type'] = 'user'; 
-                    header("Location: ../dashboard.php");
+                    header("Location: ../dashboard/dashboard.php");
                 }
             }
             else{

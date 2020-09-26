@@ -1,5 +1,6 @@
 <?php
   session_start();
+  
 ?>
 
 <!DOCTYPE html>
@@ -23,20 +24,20 @@
       <div id="main">
           <h2>Manage Cinema</h2>
 
-          <form class="col-8" style="margin: 0px 20px;">
+          <form class="col-8" action="./addCinema.php" method="post" style="margin: 0px 20px;">
             <div class="form-group col-8">
               <label for="inputName">Name</label>
-              <input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
+              <input type="text" class="form-control col-12" id="inputName" name="cinemaName" placeholder="Enter Name">
             </div>
             <div class="form-group col-8">
               <label for="inputAddress">Address</label>
-              <input type="text" class="form-control col-12" id="inputAddress"  placeholder="1234 Ma:">
+              <input type="text" class="form-control col-12" id="inputAddress" name="cinemaLocation" placeholder="Enter Adress">
             </div>
             <div class="form-group col-8">
               <label for="exampleFormControlTextarea1">Description</label>
-              <textarea class="form-control col-12" id="exampleFormControlTextarea1" rows="3"> </textarea>
+              <textarea class="form-control col-12" id="exampleFormControlTextarea1" name="cinemaDesc" rows="3"> </textarea>
             </div>
-            <button type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Add</button>
+            <button name="addCinema" type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Add</button>
           </form>
 
           <p></p>
