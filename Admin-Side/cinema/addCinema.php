@@ -1,4 +1,4 @@
-git stat<?php
+<?php
 	include ('../../Config/db_config.php');
 
 	if(isset($_POST['addCinema'])){
@@ -18,4 +18,6 @@ git stat<?php
 
 		}
 	}
+
+
 ?>
