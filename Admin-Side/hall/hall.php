@@ -1,5 +1,6 @@
 <?php
   include ('../../Config/db_config.php');
+  include ('./manageHall.php');
 ?>
 
 <!DOCTYPE html>
@@ -23,22 +24,38 @@
 
 				<h2>Manage Halls</h2>
 
-				<form class="col-8" style="margin: 0px 20px;">
+				<form action="" method="post" class="col-8" style="margin: 0px 20px;">
 						
   					<div class="col-8">
   						<label for="inputRate">Cinema</label>
    						<div class="form-group">
-               <select  class="selectpicker form-control">
-                <option value='' required>Select Cinema</option>
+               <select name="cinemaID" class="selectpicker form-control" required>
+                <option value=''>Select Cinema</option>
                   <?php
                   
-                  $query="SELECT cinema_id, cinema_name FROM cinema ORDER BY cinema_name ASC";
-                  $res = mysqli_query($conn, $query);
+                    $query="SELECT cinema_id, cinema_name FROM cinema ORDER BY cinema_name ASC";
+                    $res = mysqli_query($conn, $query);
 
-                  $cinemaList = mysqli_fetch_all($res, MYSQLI_ASSOC);
-                  foreach($cinemaList as $listof ){
-                    echo '<option value="'.$listof['cinema_id'].'">'.$listof['cinema_name'].'</option>';
-                  }
+                    $cinemaList = mysqli_fetch_all($res, MYSQLI_ASSOC);
+                    foreach($cinemaList as $listof){
+                      echo '<option value="'.$listof['cinema_id'].'" ';
+                      
+                        if(isset($_GET['edit'])){
+                          
+
+                    
+                          $selectedID = $_GET['cinema'];
+                          $retrievedID = $listof['cinema_id'];
+                          if ($retrievedID==$selectedID){
+                            echo 'selected="selected"';
+                          }
+                          else{
+                           echo 'in else rn';
+                          }
+                        }
+                      
+                      echo '>'.$listof['cinema_name'].'</option>';
+                    }
                   ?>
  
       						</select>
@@ -47,13 +64,13 @@
 
   					<div class="form-group col-8">
     					<label for="inputName">Hall Name</label>
-    					<input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
+    					<input type="text" name="hallName" class="form-control col-12" id="inputName"  placeholder="Enter Name" value="<?php echo $hallName; ?>">
   					</div>
 
   					<div class="col-8">
   						<label for="inputRate">Hall Type</label>
    						<div class="form-group">
-      						<select class="selectpicker form-control">
+      						<select name="hallType" class="selectpicker form-control">
         						<option value='Standard Hall'>Standard Hall</option>
         						<option value='Premiere Class'>Premiere Class</option>
         						<option value='Platinum Movie Suites'>Platinum Movie Suites</option>
@@ -64,13 +81,29 @@
   					
   					<div class="form-group col-8">
   						<label for="inputName">Hall Price</label>
-  						<input type="text" class="form-control col-12" placeholder="RM 0.00">				
-					</div>
+  						<input name="hallPrice" type="number" class="form-control col-12" placeholder="RM 0.00" step=".10" value="<?php echo $hallPrice; ?>">				
+		        </div>
 
+            <div class="form-group col-8">
+              <label for="inputName">Number of Rows</label>
+              <input name="hallRow" type="number" class="form-control col-12" placeholder="Enter number of rows (Min = 5, Max 10)" min="5" max="10" value="<?php echo $hallRow; ?>">        
+            </div>
 
+            <div class="form-group col-8">
+              <label for="inputName">Number of Seats per Row</label>
+              <input name="hallSeatsPerRow" type="number" class="form-control col-12" placeholder="Enter number of seats per row (Min = 10, Max 14)" min="10" max="14" value="<?php echo $hallSeatsPerRow; ?>">        
+            </div>
 
-   					<button type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Add</button>
-
+            <?php if (isset($_GET['edit'])){
+              $id = $_GET['edit'];
+              echo '<input  type="hidden" name="hallID" value="'.$id.'"></input>';
+              echo '<button name="editHall" type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Edit</button>';
+              echo "<a href='./hall.php' type='button' class='btn btn-outline-danger col-md-2 offset-md-5' >Cancel</a>";
+            } else{
+              echo '<button type="submit" name="addHall" class="btn btn-outline-success col-md-2 offset-md-5">Add</button>';  
+            }
+   	        
+            ?>
 				</form>
 
         <p></p>
@@ -78,52 +111,31 @@
         <table class="table w-75 p-3" style="margin: 0px 20px;">
             <thead>
               <tr>
-                <th scope="col">No.</th>
-                <th scope="col">Cinema</th>
-                <th scope="col">Hall</th>
-                <th scope="col">Type</th>
-                <th scope="col">Price</th>
-                <th scope="col">Layout</th>
-                <th scope="col">Options</th>
+                <th style="text-align: center;" scope="col">Cinema ID</th>
+                <th style="text-align: center;" scope="col">Name</th>
+                <th style="text-align: center;" scope="col">Type</th>
+                <th style="text-align: center;" scope="col">Price</th>
+                <th style="text-align: center;" scope="col">Number of Rows</th>
+                <th style="text-align: center;" scope="col">Number of Seats Per Row</th>
+                <th style="text-align: center;" scope="col">Options</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Place 1</td>
-                <td>*</td>
-                <td>?</td>
-                <td>RMXX</td>
-                <td>X</td>
-                <td><button type="submit" class="btn btn-outline-success col-md-5">Edit</button>
-                &nbsp;
-                <button type="submit" class="btn btn-outline-danger col-md-5">Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                  <td>Place 2</td>
-                  <td>*</td>
-                  <td>?</td>
-                  <td>RMXX</td>
-                  <td>X</td>
-                  <td><button type="submit" class="btn btn-outline-success col-md-5">Edit</button>
-                &nbsp;
-                <button type="submit" class="btn btn-outline-danger col-md-5">Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                  <td>Place 3</td>
-                  <td>*</td>
-                  <td>?</td>
-                  <td>RMXX</td>
-                  <td>X</td>
-                  <td><button type="submit" class="btn btn-outline-success col-md-5">Edit</button>
-                &nbsp;
-                <button type="submit" class="btn btn-outline-danger col-md-5">Delete</button>
-                </td>
-              </tr>
+              <?php foreach ($hallList as $hall): ?>
+                <tr>
+                  <?php $hallID = $hall['hall_id']; ?>
+                  <th style="text-align: center;" scope="row"><?php echo $hall['hall_cinema_id'];?></th>
+                  <td style="text-align: center;"><?php echo $hall['hall_name'];?></td>
+                  <td style="text-align: center;"><?php echo $hall['hall_type'];?></td>
+                  <td style="text-align: center;">RM <?php echo $hall['hall_price'];?></td>
+                  <td style="text-align: center;"><?php echo $hall['seat_row'];?></td>
+                  <td style="text-align: center;"><?php echo $hall['seat_number'];?></td>
+                  <td><a type="button" href="./hall.php?edit=<?php echo $hallID; ?>&cinema=<?php echo $hall['hall_cinema_id']?>" class="btn btn-outline-success col-md-5">Edit</a>
+                  &nbsp;
+                  <a type="button" href="./hall.php?delete=<?php echo $hallID; ?>" class="btn btn-outline-danger col-md-5">Delete</a>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
           </tbody>
         </table>
 

@@ -64,9 +64,9 @@ include './addCinema.php'
                   <td><?php echo $cinemaRes['cinema_id']; ?></td>
                   <td><?php echo $cinemaRes['cinema_name']; ?></td>
                   <td><?php echo $cinemaRes['cinema_location']; ?></td>
-                  <td><a type="button" href="./cinema.php?edit=<?php echo $cinID ?>"class="btn btn-outline-success col-md-5">Edit</a>
+                  <td><a type="button" href="./cinema.php?edit=<?php echo $cinID; ?>"class="btn btn-outline-success col-md-5">Edit</a>
                   &nbsp;
-                  <a type="button" href="./cinema.php?delete=<?php echo $cinID ?>" class="btn btn-outline-danger col-md-5">Delete</a>
+                  <a type="button" href="./cinema.php?delete=<?php echo $cinID; ?>" class="btn btn-outline-danger col-md-5">Delete</a>
                   </td>
                 </tr>
             <?php endforeach; ?>  

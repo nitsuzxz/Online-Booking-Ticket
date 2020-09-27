@@ -6,7 +6,7 @@
   $res = mysqli_query($conn, $query);
   $cinemaList = mysqli_fetch_all($res, MYSQLI_ASSOC);
   $cinemaName = '';
-    $cinemaLocation = '';
+  $cinemaLocation = '';
   $cinemaDesc = '';
 
 	if(isset($_POST['addCinema'])){
@@ -23,8 +23,6 @@
 		}
 		else{
 			echo 'ERROR'.mysqli_error($conn);
-
-
 		}
 	}
   if (isset($_GET['delete'])) {
@@ -41,7 +39,7 @@
     $cinemaName = $cinemaInst['cinema_name'];
     $cinemaLocation = $cinemaInst['cinema_location'];
     $cinemaDesc = $cinemaInst['cinema_description'];
-  } 
+  }
 
   if (isset($_POST['editCinema'])){
     $cinemaID= $_POST['cinID']; 
@@ -49,9 +47,9 @@
     $cinemaLocation = $_POST['cinemaLocation'];
     $cinemaDesc = $_POST['cinemaDesc'];
 
-	$query = "UPDATE cinema SET cinema_name = '$cinemaName', cinema_location='$cinemaLocation', cinema_description='$cinemaDesc' WHERE cinema_id = '$cinemaID'";
-	 mysqli_query($conn, $query);
-	 header('Location: cinema.php');
+    $query = "UPDATE cinema SET cinema_name = '$cinemaName', cinema_location ='$cinemaLocation', cinema_description ='$cinemaDesc' WHERE cinema_id = '$cinemaID'";
+	   mysqli_query($conn, $query);
+	   header('Location: cinema.php');
   }
   // Free Result
   mysqli_free_result($res);
