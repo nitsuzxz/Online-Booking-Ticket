@@ -32,7 +32,7 @@
                 }
                 else if ($adminType == 'user') {
                     $_SESSION['user_type'] = 'user'; 
-                    header("Location: ../dashboard.php");
+                    header("Location: ../dashboard/dashboard.php");
                 }
             }
             else{

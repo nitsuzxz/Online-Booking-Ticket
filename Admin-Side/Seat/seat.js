@@ -20,7 +20,7 @@
         
         for(let i=0; i< selectedSeatNum.length;i++){
  
-            console.log("index"+i+".  SEAT NUMBER="+ selectedSeatNum[i].innerText);
+            console.log("heheehindex"+i+".  SEAT NUMBER="+ selectedSeatNum[i].innerText);
      
         }
       

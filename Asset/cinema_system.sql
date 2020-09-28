@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2020 at 08:55 AM
+-- Generation Time: Sep 27, 2020 at 08:24 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -48,6 +48,13 @@ CREATE TABLE `cinema` (
   `cinema_location` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cinema`
+--
+
+INSERT INTO `cinema` (`cinema_id`, `cinema_name`, `cinema_description`, `cinema_location`) VALUES
+(3, 'cinema2', '  HEYIO', 'jaoan12');
+
 -- --------------------------------------------------------
 
 --
@@ -59,7 +66,9 @@ CREATE TABLE `hall` (
   `hall_name` varchar(255) NOT NULL,
   `hall_cinema_id` int(11) NOT NULL,
   `hall_type` varchar(255) NOT NULL,
-  `hall_price` double NOT NULL
+  `hall_price` double NOT NULL,
+  `seat_row` int(11) NOT NULL,
+  `seat_number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -74,8 +83,21 @@ CREATE TABLE `movie` (
   `movie_desciption` text NOT NULL,
   `movie_date_start_aired` date NOT NULL,
   `movie_date_end_aired` date NOT NULL,
-  `movie_price` double NOT NULL,
-  `movie_cinema` int(11) NOT NULL
+  `movie_price` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `seat_record`
+--
+
+CREATE TABLE `seat_record` (
+  `sa_id` int(11) NOT NULL,
+  `seat_row` int(11) NOT NULL,
+  `seat_number` int(11) NOT NULL,
+  `aired_id` int(11) NOT NULL,
+  `seat_availablity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -86,11 +108,9 @@ CREATE TABLE `movie` (
 
 CREATE TABLE `transaction_history` (
   `trans_id` int(11) NOT NULL,
-  `cinema_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `datetime` datetime NOT NULL,
-  `adult_ticket` int(11) NOT NULL,
-  `child_ticket` int(11) NOT NULL,
+  `total_ticket` int(11) NOT NULL,
   `tax` double NOT NULL,
   `total_price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -107,16 +127,17 @@ CREATE TABLE `user` (
   `user_age` int(99) NOT NULL,
   `user_email` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL,
-  `user_type` varchar(5) NOT NULL
+  `user_type` varchar(5) NOT NULL,
+  `cinema_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_name`, `user_age`, `user_email`, `user_password`, `user_type`) VALUES
-(1, 'user1', 25, 'user1@gmail.com', '123456', 'user'),
-(2, 'admin1', 24, 'admin1@gmail.com', '123456', 'admin');
+INSERT INTO `user` (`user_id`, `user_name`, `user_age`, `user_email`, `user_password`, `user_type`, `cinema_id`) VALUES
+(1, 'user1', 25, 'user1@gmail.com', '123456', 'user', NULL),
+(2, 'admin1', 24, 'admin1@gmail.com', '123456', 'admin', 3);
 
 --
 -- Indexes for dumped tables
@@ -126,7 +147,9 @@ INSERT INTO `user` (`user_id`, `user_name`, `user_age`, `user_email`, `user_pass
 -- Indexes for table `aired`
 --
 ALTER TABLE `aired`
-  ADD PRIMARY KEY (`aired_id`);
+  ADD PRIMARY KEY (`aired_id`),
+  ADD KEY `hall_id` (`hall_id`),
+  ADD KEY `movie_id` (`movie_id`);
 
 --
 -- Indexes for table `cinema`
@@ -138,7 +161,21 @@ ALTER TABLE `cinema`
 -- Indexes for table `hall`
 --
 ALTER TABLE `hall`
-  ADD PRIMARY KEY (`hall_id`);
+  ADD PRIMARY KEY (`hall_id`),
+  ADD KEY `hall_cinema_id` (`hall_cinema_id`);
+
+--
+-- Indexes for table `movie`
+--
+ALTER TABLE `movie`
+  ADD PRIMARY KEY (`movie_id`);
+
+--
+-- Indexes for table `seat_record`
+--
+ALTER TABLE `seat_record`
+  ADD PRIMARY KEY (`sa_id`),
+  ADD KEY `aired_id` (`aired_id`);
 
 --
 -- Indexes for table `transaction_history`
@@ -150,7 +187,8 @@ ALTER TABLE `transaction_history`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD KEY `cinema_id` (`cinema_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -166,13 +204,25 @@ ALTER TABLE `aired`
 -- AUTO_INCREMENT for table `cinema`
 --
 ALTER TABLE `cinema`
-  MODIFY `cinema_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cinema_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `hall`
 --
 ALTER TABLE `hall`
-  MODIFY `hall_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `hall_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `movie`
+--
+ALTER TABLE `movie`
+  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `seat_record`
+--
+ALTER TABLE `seat_record`
+  MODIFY `sa_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaction_history`
@@ -185,6 +235,35 @@ ALTER TABLE `transaction_history`
 --
 ALTER TABLE `user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `aired`
+--
+ALTER TABLE `aired`
+  ADD CONSTRAINT `aired_ibfk_1` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`hall_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `aired_ibfk_2` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `hall`
+--
+ALTER TABLE `hall`
+  ADD CONSTRAINT `hall_ibfk_1` FOREIGN KEY (`hall_cinema_id`) REFERENCES `cinema` (`cinema_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `seat_record`
+--
+ALTER TABLE `seat_record`
+  ADD CONSTRAINT `seat_record_ibfk_1` FOREIGN KEY (`aired_id`) REFERENCES `aired` (`aired_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`cinema_id`) REFERENCES `cinema` (`cinema_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
