@@ -32,24 +32,9 @@
 
 				<form class="col-8" action="./addMovie.php" method="post" style="margin: 0px 20px;">
       				<div class="form-group col-8">
-        				<label for="inputName">Movie name</label>
+        				<label for="inputName">Movie Name</label>
         				<input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
       				</div>
-
-      				<div class="form-group">
-      					<div class="col-8">
-      						<label for="inputRate">Rate</label>
-       						<div class="form-group">
-          						<select class="selectpicker form-control">
-            						<option>1/5</option>
-            						<option>2/5</option>
-            						<option>3/5</option>
-            						<option>4/5</option>
-            						<option>5/5</option>
-          						</select>
-        					</div>
-      					</div>
-                    </div>
 
       				<div class="form-group col-8">
         				<label for="exampleFormControlTextarea1">Synopsis</label>
@@ -109,70 +94,6 @@
         </div>
 
         <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
       </form>
 
 			</div>
