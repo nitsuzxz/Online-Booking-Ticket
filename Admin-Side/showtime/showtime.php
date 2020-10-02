@@ -11,6 +11,7 @@
     	<!-- Bootstrap CSS CDN -->
     	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 		<link rel="stylesheet" href="../../Asset/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<title>Manage Halls</title>
 	</head>
 
@@ -28,7 +29,7 @@
   					<div class="col-8">
   						<label for="inputRate">Cinema</label>
    						<div class="form-group">
-               <select  class="selectpicker form-control">
+               <select onchange="enableHall()" id="cinemaSelection"  class="selectpicker form-control">
                 <option value='' required>Select Cinema</option>
                   <?php
                   
@@ -47,38 +48,16 @@
             <div class="col-8">
   						<label for="inputRate">Hall</label>
    						<div class="form-group">
-               <select  class="selectpicker form-control">
+               <select onchange="enableMovie()" class="selectpicker form-control" id="hallSelection" disabled>
                 <option value='' required>Select Hall</option>
-                  <?php
-                  
-                  $query="SELECT hall_id, hall_name FROM hall ORDER BY hall_name ASC";
-                  $res = mysqli_query($conn, $query);
-
-                  $hallList = mysqli_fetch_all($res, MYSQLI_ASSOC);
-                  foreach($hallList as $listof ){
-                    echo '<option value="'.$listof['hall_id'].'">'.$listof['hall_name'].'</option>';
-                  }
-                  ?>
- 
-      						</select>
+      				 </select>
     					</div>
   					</div>
             <div class="col-8">
   						<label for="inputRate">Movie</label>
    						<div class="form-group">
-               <select  class="selectpicker form-control">
+               <select  id="movieSelection" class="selectpicker form-control" disabled>
                 <option value='' required>Select Movie</option>
-                  <?php
-                  
-                  $query="SELECT hall_id, hall_name FROM hall ORDER BY hall_name ASC";
-                  $res = mysqli_query($conn, $query);
-
-                  $movieList = mysqli_fetch_all($res, MYSQLI_ASSOC);
-                  foreach($movieList as $listof ){
-                    echo '<option value="'.$listof['movie_id'].'">'.$listof['movie_name'].'</option>';
-                  }
-                  ?>
- 
       						</select>
     					</div>
   					</div>
@@ -178,6 +157,57 @@
 	</body>
 
   <Script>
+
+    function enableHall(){
+
+      var cinemaID = document.getElementById("cinemaSelection").value;
+      if(cinemaID !==""){
+
+        var formData = new FormData();
+		
+      formData.append('cinemaID', cinemaID);
+      $("#hallSelection option").remove();
+      $.ajax({ 
+           url:'showtimeFunction.php',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data){
+                console.log("this"+data);
+                var a=JSON.parse(data);
+                  $("#hallSelection").append("<option value=''>Select Hall</option>");
+                for(var i=0; i<a.length; i++){
+                  var hall_id=a[i].hall_id;
+                  var hall_name=a[i].hall_name;
+                  $("#hallSelection").append("<option value='"+hall_id+"'>"+hall_name+"</option>");
+                }
+              
+            },
+            error: function(x,e){
+              alert(x+e);
+        }
+        });
+      document.getElementById("hallSelection").disabled = false;
+      
+      }else{
+        document.getElementById("hallSelection").disabled = true;
+        document.getElementById("hallSelection").value = "";
+      }
+      
+    }
+
+      function enableMovie(){
+        var hallID = document.getElementById("hallSelection").value;
+
+           if(hallID !==""){
+              document.getElementById("movieSelection").disabled = false;
+           }else{
+              document.getElementById("movieSelection").disabled = false;
+           }
+      }
+
       function addTime(){
         console.log("this is add Time");
         var time = document.getElementById("startTime").value;
