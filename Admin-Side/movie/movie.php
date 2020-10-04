@@ -26,59 +26,39 @@
 		<div class="dashboardContainer">
 			<?php include '../../Asset/sideNav.php'; ?>  
 			
-			<div  id="main">
+			<div  id="main" class="container">
 
-	  			<h2>Manage Movies</h2>		
+	  		<h2>Manage Movies</h2>		
 
-				<form class="col-8" action="./addMovie.php" method="post" style="margin: 0px 20px;">
+				<form class="col-8" action="./addMovie.php" method="post" enctype="multipart/form-data" style="margin: 0px 20px;">
       				<div class="form-group col-8">
         				<label for="inputName">Movie Name</label>
-        				<input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
+        				<input type="text" name="movieName" class="form-control col-12" id="inputName"  placeholder="Enter Name">
       				</div>
 
       				<div class="form-group col-8">
         				<label for="exampleFormControlTextarea1">Synopsis</label>
-        				<textarea class="form-control col-12" id="exampleFormControlTextarea1" rows="3"> </textarea>
+        				<textarea class="form-control col-12" name="movieDesc" id="exampleFormControlTextarea1" rows="3"> </textarea>
       				</div>
 
     				<div class="form-group col-8">
-            			Start Date: <input id="startDate" width="276" />
-            			End Date: <input id="endDate" width="276" />
-        			</div>
-              
-        			<script>
-                		var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-                		$('#startDate').datepicker({
-                    		uiLibrary: 'bootstrap4',
-                    		iconsLibrary: 'fontawesome',
-                    		minDate: today,
-                    		maxDate: function () {
-                    			return $('#endDate').val();
-                    		}
-                			});
-                		$('#endDate').datepicker({
-                    		uiLibrary: 'bootstrap4',
-                    		iconsLibrary: 'fontawesome',
-                    		minDate: function () {
-                    			return $('#startDate').val();
-                    		}
-                		});
+            			Start Date: <input type=date name="movieStartDate" class="form-control" id="startDate" width="276" />
+            			End Date: <input type="date" name="movieEndDate" class="form-control" id="endDate" width="276" />
+        		</div>
 
-        			</script>
-
-        			<div class="custom-file col-8">
-      					<input type="file" class="custom-file-input" id="customFile">
-      					<label class="custom-file-label" for="customFile">Poster file</label>
+        		<div class="custom-file col-8">
+      					<label class="custom-file-label" for="customFile">Upload Movie Poster</label>
+                <input type="file" name="moviePoster" class="custom-file-input" id="customFile">
+      					
     				</div>
 
     				<div class="form-group">
-    					<p></p>
-                        <button name="addMovie" type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
-      				</div>
+    					<br>
+              <button name="addMovie" type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
+      			</div>
+        </form>
 
-                </form>
-
-       <p></p>
+        <br>
 
        <form class="row" style="margin: 0px 20px;">
 
