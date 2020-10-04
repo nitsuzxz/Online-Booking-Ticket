@@ -29,7 +29,7 @@
   					<div class="col-8">
   						<label for="inputRate">Cinema</label>
    						<div class="form-group">
-               <select onchange="enableHall()" id="cinemaSelection"  class="selectpicker form-control">
+               <select onchange="enableHall()" id="cinemaSelection" name="cinemaSelection"  class="selectpicker form-control" required >
                 <option value='' required>Select Cinema</option>
                   <?php
                   
@@ -48,7 +48,7 @@
             <div class="col-8">
   						<label for="inputRate">Hall</label>
    						<div class="form-group">
-               <select onchange="enableMovie()" class="selectpicker form-control" id="hallSelection" disabled>
+               <select onchange="enableMovie()" class="selectpicker form-control" id="hallSelection" name="hallSelection" disabled required>
                 <option value='' required>Select Hall</option>
       				 </select>
     					</div>
@@ -56,7 +56,7 @@
             <div class="col-8">
   						<label for="inputRate">Movie</label>
    						<div class="form-group">
-               <select  id="movieSelection" class="selectpicker form-control" disabled>
+               <select onchange="enableDate()"  id="movieSelection" class="selectpicker form-control" name="movieSelection" disabled required>
                 <option value='' required>Select Movie</option>
       						</select>
     					</div>
@@ -64,7 +64,7 @@
             <div class="col-8">
   						<label for="inputRate">Date of Showtime</label>
                 <div class="input-group date" data-provide="datepicker">
-                  <input type="date" class="form-control" onchange= >
+                  <input onchange="checkingDate()" type="date" class="form-control" id="date" disabled required>
                 <div class="input-group-addon">
                 <span class="glyphicon glyphicon-th"></span>
               </div>
@@ -72,8 +72,8 @@
   				</div>
           <div class="col-8">
           <label for="appt">Select a time:</label>
-          <input type="time" name="startTime" id="startTime" min="10"  required >
-          <a type="button" onclick="addTime()">Select</a>
+          <input type="time" name="startTime" id="startTime" min="10" disabled  required >
+          <button type="button" onclick="addTime()">Select</button>
           </div>
 
           <table class="table w-75 p-3" style="margin: 0px 20px;">
@@ -160,12 +160,15 @@
 
     function enableHall(){
 
+      var showtimeStatus=false;
+      var showtimeData=[];
+      var selectedTime=[];
+
       var cinemaID = document.getElementById("cinemaSelection").value;
       if(cinemaID !==""){
-
-        var formData = new FormData();
-		
-      formData.append('cinemaID', cinemaID);
+      
+      var formData = new FormData();
+      formData.append('fetchHall', cinemaID);
       $("#hallSelection option").remove();
       $.ajax({ 
            url:'showtimeFunction.php',
@@ -175,9 +178,8 @@
             processData: false,
             contentType: false,
             success: function (data){
-                console.log("this"+data);
-                var a=JSON.parse(data);
-                  $("#hallSelection").append("<option value=''>Select Hall</option>");
+              var a=JSON.parse(data);
+                $("#hallSelection").append("<option value=''>Select Hall</option>");
                 for(var i=0; i<a.length; i++){
                   var hall_id=a[i].hall_id;
                   var hall_name=a[i].hall_name;
@@ -194,26 +196,140 @@
       }else{
         document.getElementById("hallSelection").disabled = true;
         document.getElementById("hallSelection").value = "";
+        document.getElementById("movieSelection").disabled = true;
+              document.getElementById("movieSelection").value = "";
+              document.getElementById("date").disabled = true;
+              document.getElementById("date").value = "";
       }
       
     }
 
       function enableMovie(){
+        var formData = new FormData();
         var hallID = document.getElementById("hallSelection").value;
 
            if(hallID !==""){
+
+              formData.append('fetchMovie', hallID);
+              $("#movieSelection option").remove();
+
+              $.ajax({ 
+                   url:'showtimeFunction.php',
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data){
+                      console.log("movie"+data);
+                      var a=JSON.parse(data);
+                $("#movieSelection").append("<option value=''>Select Movie</option>");
+                for(var i=0; i<a.length; i++){
+                  var movie_id=a[i].movie_id;
+                  var movie_name=a[i].movie_name;
+                  $("#movieSelection").append("<option value='"+movie_id+"'>"+movie_name+"</option>");
+                }
+                    },
+                    error: function(x,e){
+                      alert(x+e);
+                  }
+                });
               document.getElementById("movieSelection").disabled = false;
-           }else{
-              document.getElementById("movieSelection").disabled = false;
+            }else{
+              document.getElementById("movieSelection").disabled = true;
+              document.getElementById("movieSelection").value = "";
+              document.getElementById("date").disabled = true;
+              document.getElementById("date").value = "";
            }
+      }
+      function enableDate(){
+        var movie= document.getElementById("movieSelection").value;
+        console.log("function" + movie);
+
+        if(movie!=''){
+          document.getElementById("date").disabled = false;
+        }else{
+          document.getElementById("date").disabled = true;
+          document.getElementById("date").value = "";
+        }
+
+      }
+
+      function checkingDate(){
+        var date=document.getElementById("date").value;
+        var hallID=document.getElementById("hallSelection").value;
+        var movieID=document.getElementById("movieSelection").value;
+        console.log(date);
+
+        var formData = new FormData();
+
+           if(hallID !=="" && movieID !=="" && date !==""){
+
+              formData.append('hallID', hallID);
+              formData.append('movieID', movieID);
+              formData.append('date', date);
+      
+              console.log(hallID);
+              console.log(movieID);
+              console.log(date);
+
+              $.ajax({ 
+                   url:'showtimeFunction.php',
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data){
+        
+                      showtimeData=JSON.parse(data);     
+                      showtimeStatus=true;
+                      document.getElementById("startTime").disabled = false;
+                    },
+                    error: function(x,e){
+                      alert(x+e);
+                  }
+                });
+            
+      
+            }else{
+
+              document.getElementById("startTime").disabled = true;
+
+           }
+
       }
 
       function addTime(){
-        console.log("this is add Time");
-        var time = document.getElementById("startTime").value;
-        console.log("this is Time"+ time);
-      }
+
+          var startTime= document.getElementById("startTime").value;
+          selectedTime.push(startTime);
+
+          if(showtimeStatus==true){
+
+              for(var i=0; i<showtimeData.length; i++){
+
+                for(var j=0; j<selectedTime; j++){
+                  if(selectedTime >= showtimeData[i].aired_showtime && selectedTime <= showtimeData[i].aired_showtime ){
+
+}
+
+                }
+
+       
+
+                console.log(showtimeData[i]);
+
+              }
+  
+          }else{
+
+        } 
+      } 
+
+
 
   </Script>
 
 </html>
+
