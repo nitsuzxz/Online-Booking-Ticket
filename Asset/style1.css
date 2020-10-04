@@ -75,8 +75,7 @@ body
   margin-left: 100px;
 }
 
-.date a
- {
+  .login100-form-btn {
   display: block;
   width: 100px;
   height: 100px;
@@ -88,7 +87,56 @@ body
   text-align: center;
   line-height: 88px;
   font-size: 25px;
-  }
+
+  background: #9152f8;
+  background: -webkit-linear-gradient(bottom, #7579ff, #b224ef);
+  background: -o-linear-gradient(bottom, #7579ff, #b224ef);
+  background: -moz-linear-gradient(bottom, #7579ff, #b224ef);
+  background: linear-gradient(bottom, #7579ff, #b224ef);
+  position: relative;
+  z-index: 1;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.txt1 {
+  font-size: 20px;
+  color: #e5e5e5;
+  line-height: 1.5;
+}
+.login100-form-btn::before {
+
+
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+  border: 1px solid white;    
+  background-color: black; 
+  border-radius: 5000px;
+  top: 0;
+  left: 0;
+  opacity: 1;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.login100-form-btn:hover {
+  color: solid black;
+}
+
+.login100-form-btn:hover:before {
+  opacity: 0;
+}
 
 .date label
 {
