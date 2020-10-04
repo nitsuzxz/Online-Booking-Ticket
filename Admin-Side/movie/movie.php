@@ -35,7 +35,6 @@
     				<label for="inputName">Movie name</label>
     				<input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
   				</div>
-
   				<div class="form-group">
   					<div class="col-8">
   						<label for="inputRate">Rate</label>
