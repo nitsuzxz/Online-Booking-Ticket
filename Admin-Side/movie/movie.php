@@ -1,5 +1,7 @@
 <?php
-	session_start();
+	
+  include ('./addMovie.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -25,155 +27,66 @@
 	<body>
 		<div class="dashboardContainer">
 			<?php include '../../Asset/sideNav.php'; ?>  
-			
-			<div  id="main">
+			<div  id="main" class="container">
 
-	  			<h2>Manage Movies</h2>		
+	  			
 
-				<form class="col-8" style="margin: 0px 20px;">
-  				<div class="form-group col-8">
-    				<label for="inputName">Movie name</label>
-    				<input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
-  				</div>
-  				<div class="form-group">
-  					<div class="col-8">
-  						<label for="inputRate">Rate</label>
-   						<div class="form-group">
-      						<select class="selectpicker form-control">
-        						<option>1/5</option>
-        						<option>2/5</option>
-        						<option>3/5</option>
-        						<option>4/5</option>
-        						<option>5/5</option>
-      						</select>
-    					</div>
-  					</div>
-					</div>
+	  		<h2>Manage Movies</h2>		
 
-  				<div class="form-group col-8">
-    				<label for="exampleFormControlTextarea1">Synopsis</label>
-    				<textarea class="form-control col-12" id="exampleFormControlTextarea1" rows="3"> </textarea>
-  				</div>
+				<form class="col-8" action="./addMovie.php" method="post" enctype="multipart/form-data" style="margin: 0px 20px;">
+      				<div class="form-group col-8">
+        				<label for="inputName">Movie Name</label>
+        				<input type="text" name="movieName" class="form-control col-12" id="inputName"  placeholder="Enter Name">
+      				</div>
+              <div class="form-group col-8">
+                <label for="inputName">Movie Duration</label>
+                <input name="movieDuration" type="number" class="form-control col-12" placeholder="minute" step="1" value="">       
+              </div>
+      				<div class="form-group col-8">
+        				<label for="exampleFormControlTextarea1">Synopsis</label>
+        				<textarea class="form-control col-12" name="movieDesc" id="exampleFormControlTextarea1" rows="3"> </textarea>
+      				</div>
 
-					<div class="form-group col-8">
-        			Start Date: <input id="startDate" width="276" />
-        			End Date: <input id="endDate" width="276" />
-    			</div>
-          
-    			<script>
-        		var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-        		$('#startDate').datepicker({
-            		uiLibrary: 'bootstrap4',
-            		iconsLibrary: 'fontawesome',
-            		minDate: today,
-            		maxDate: function () {
-            			return $('#endDate').val();
-            		}
-        			});
-        		$('#endDate').datepicker({
-            		uiLibrary: 'bootstrap4',
-            		iconsLibrary: 'fontawesome',
-            		minDate: function () {
-            			return $('#startDate').val();
-            		}
-        		});
+    				<div class="form-group col-8">
+            			Start Date: <input type=date name="movieStartDate" class="form-control" id="startDate" width="276" />
+            			End Date: <input type="date" name="movieEndDate" class="form-control" id="endDate" width="276" />
+        		</div>
 
-    			</script>
+            <div class="form-group col-8">
+              <label for="inputName">Movie Price</label>
+              <input name="moviePrice" type="number" class="form-control col-12" placeholder="RM 0.00" step=".10">
+            </div>
 
-    			<div class="custom-file col-8">
+        		<div class="custom-file col-8">
+      					<label class="custom-file-label" for="customFile">Upload Movie Poster</label>
+                <input type="file" name="moviePoster" class="custom-file-input" id="customFile">
+      					
+    				</div>
 
-  					<input type="file" class="custom-file-input" id="customFile">
-  					<label class="custom-file-label" for="customFile">Poster file</label>
-					</div>
+    				<div class="form-group">
+    					<br>
+              <button name="addMovie" type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
+      			</div>
+        </form>
 
-					<div class="form-group">
-					 <p></p>
-  				  <button type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
-  				</div>
-
-			 </form>
-
-       <p></p>
-
-       <form class="row" style="margin: 0px 20px;">
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
+        <br>
+        <div class="container-fluid">
+          <?php foreach ($movieList as $movie): ?>
+            <div class="card" style="width: 18rem; margin: 10px;">
+              <img class="card-img-top" src="<?php echo $movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
+              <div class="card-body">
+                <h5 class="card-title"><?php echo $movie['movie_name']; ?></h5>
+                <h6 class="card-subtitle mb-2 text-muted">Duration: <?php echo $movie['movie_duration']; ?></h6>
+                <h6><b>Description</b></h6>
+                <p class="card-text"><?php echo $movie['movie_desciption']; ?></p>
+                <p class="card-text">RM <?php echo $movie['movie_price']; ?></p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          <?php endforeach; ?>
         </div>
-
-        <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-      </form>
+        
 
 			</div>
 
