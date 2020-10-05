@@ -1,5 +1,5 @@
 <?php
-	include ('../../Config/db_config.php');
+	
   include ('./addMovie.php');
 
 ?>
@@ -70,22 +70,23 @@
         </form>
 
         <br>
-
-       <form class="row" style="margin: 0px 20px;">
-
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="./ae.jpg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">ExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExampleExample</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
+        <div class="container">
+          <?php foreach ($movieList as $movie): ?>
+            <div class="container-fluid" style="width: 18rem; margin: 10px;">
+              <img class="card-img-top" src="<?php echo $movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
+              <div class="card-body">
+                <h5 class="card-title"><?php echo $movie['movie_name']; ?></h5>
+                <h6 class="card-subtitle mb-2 text-muted">Duration: <?php echo $movie['movie_duration']; ?></h6>
+                <h6><b>Description</b></h6>
+                <p class="card-text"><?php echo $movie['movie_desciption']; ?></p>
+                <p class="card-text">RM <?php echo $movie['movie_price']; ?></p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+          <?php endforeach; ?>
         </div>
-
-        <p>&nbsp;</p>
-      </form>
+        
 
 			</div>
 

@@ -1,6 +1,6 @@
 <?php 
 	
-	//include ('../../Config/db_config.php');
+	include ('../../Config/db_config.php');
 	
 	$movieName = '';
 	$movieDuration = '';
