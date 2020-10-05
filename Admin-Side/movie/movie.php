@@ -1,5 +1,7 @@
 <?php
-	session_start();
+	include ('../../Config/db_config.php');
+  include ('./addMovie.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -25,79 +27,9 @@
 	<body>
 		<div class="dashboardContainer">
 			<?php include '../../Asset/sideNav.php'; ?>  
-			
-<<<<<<< HEAD
 			<div  id="main" class="container">
-=======
-			<div  id="main">
 
-	  			<h2>Manage Movies</h2>		
-
-				<form class="col-8" style="margin: 0px 20px;">
-  				<div class="form-group col-8">
-    				<label for="inputName">Movie name</label>
-    				<input type="text" class="form-control col-12" id="inputName"  placeholder="Enter Name">
-  				</div>
-  				<div class="form-group">
-  					<div class="col-8">
-  						<label for="inputRate">Rate</label>
-   						<div class="form-group">
-      						<select class="selectpicker form-control">
-        						<option>1/5</option>
-        						<option>2/5</option>
-        						<option>3/5</option>
-        						<option>4/5</option>
-        						<option>5/5</option>
-      						</select>
-    					</div>
-  					</div>
-					</div>
-
-  				<div class="form-group col-8">
-    				<label for="exampleFormControlTextarea1">Synopsis</label>
-    				<textarea class="form-control col-12" id="exampleFormControlTextarea1" rows="3"> </textarea>
-  				</div>
-
-					<div class="form-group col-8">
-        			Start Date: <input id="startDate" width="276" />
-        			End Date: <input id="endDate" width="276" />
-    			</div>
-          
-    			<script>
-        		var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-        		$('#startDate').datepicker({
-            		uiLibrary: 'bootstrap4',
-            		iconsLibrary: 'fontawesome',
-            		minDate: today,
-            		maxDate: function () {
-            			return $('#endDate').val();
-            		}
-        			});
-        		$('#endDate').datepicker({
-            		uiLibrary: 'bootstrap4',
-            		iconsLibrary: 'fontawesome',
-            		minDate: function () {
-            			return $('#startDate').val();
-            		}
-        		});
-
-    			</script>
-
-    			<div class="custom-file col-8">
-
-  					<input type="file" class="custom-file-input" id="customFile">
-  					<label class="custom-file-label" for="customFile">Poster file</label>
-					</div>
-
-					<div class="form-group">
-					 <p></p>
-  				  <button type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
-  				</div>
-
-			 </form>
-
-       <p></p>
->>>>>>> 52ef4d903ee58ec76ce01dc2659b3bd7cdb17ea9
+	  			
 
 	  		<h2>Manage Movies</h2>		
 
@@ -106,7 +38,10 @@
         				<label for="inputName">Movie Name</label>
         				<input type="text" name="movieName" class="form-control col-12" id="inputName"  placeholder="Enter Name">
       				</div>
-
+              <div class="form-group col-8">
+                <label for="inputName">Movie Duration</label>
+                <input name="movieDuration" type="number" class="form-control col-12" placeholder="minute" step="1" value="">       
+              </div>
       				<div class="form-group col-8">
         				<label for="exampleFormControlTextarea1">Synopsis</label>
         				<textarea class="form-control col-12" name="movieDesc" id="exampleFormControlTextarea1" rows="3"> </textarea>
@@ -116,6 +51,11 @@
             			Start Date: <input type=date name="movieStartDate" class="form-control" id="startDate" width="276" />
             			End Date: <input type="date" name="movieEndDate" class="form-control" id="endDate" width="276" />
         		</div>
+
+            <div class="form-group col-8">
+              <label for="inputName">Movie Price</label>
+              <input name="moviePrice" type="number" class="form-control col-12" placeholder="RM 0.00" step=".10">
+            </div>
 
         		<div class="custom-file col-8">
       					<label class="custom-file-label" for="customFile">Upload Movie Poster</label>

@@ -22,16 +22,13 @@
 		$hallSeatsPerRow = $_POST['hallSeatsPerRow'];
 
 		$query = "INSERT INTO hall(hall_name, hall_cinema_id, hall_type, hall_price, seat_row, seat_number) VALUES ('$hallName', '$cinemaID', '$hallType', '$hallPrice', '$hallRow', '$hallSeatsPerRow')";
-		echo $query;
+		
 		if (mysqli_query($conn, $query)) {
 			header('Location: hall.php');
 		}
 		else{
 			echo "Query x jadi";
-		}
-		
-		//echo $query;
-				
+		}				
 	}
 
 	if (isset($_GET['delete'])){
