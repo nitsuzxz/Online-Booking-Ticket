@@ -70,9 +70,9 @@
         </form>
 
         <br>
-        <div class="container">
+        <div class="container-fluid">
           <?php foreach ($movieList as $movie): ?>
-            <div class="container-fluid" style="width: 18rem; margin: 10px;">
+            <div class="card" style="width: 18rem; margin: 10px;">
               <img class="card-img-top" src="<?php echo $movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
               <div class="card-body">
                 <h5 class="card-title"><?php echo $movie['movie_name']; ?></h5>
