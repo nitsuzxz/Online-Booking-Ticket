@@ -72,23 +72,25 @@
         <br>
         <div class="container-fluid">
           <?php foreach ($movieList as $movie): ?>
-            <div class="card" style="width: 18rem; margin: 10px;">
-              <img class="card-img-top" src="<?php echo $movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
+            <?php $movieID = $movie['movie_id'];?>
+            <?php $moviePicDir = $movie['pic_location']; ?>
+            <div class="card" style="width: 18rem; margin: 10px; display: inline-block;">
+              <img class="card-img-top " src="<?php echo $movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
               <div class="card-body">
                 <h5 class="card-title"><?php echo $movie['movie_name']; ?></h5>
                 <h6 class="card-subtitle mb-2 text-muted">Duration: <?php echo $movie['movie_duration']; ?></h6>
                 <h6><b>Description</b></h6>
                 <p class="card-text"><?php echo $movie['movie_desciption']; ?></p>
                 <p class="card-text">RM <?php echo $movie['movie_price']; ?></p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <a type="button" href="./movie.php?edit=<?php echo $movieID; ?>" class="btn btn-outline-success col-md-5">Edit</a>
+                  &nbsp;
+                  <a type="button" href="./movie.php?delete=<?php echo $movieID; ?>&posterDir=<?php echo $moviePicDir; ?>" class="btn btn-outline-danger col-md-5">Delete</a>
               </div>
             </div>
           <?php endforeach; ?>
         </div>
-        
-
-			</div>
+			
+      </div>
 
 		</div>
 

@@ -85,7 +85,7 @@
 					header('Location: movie.php');
 				}
 				else{
-					echo "Query x jadi";
+					echo $query;
 				}	
 
 
@@ -96,6 +96,16 @@
   			}
 		}
 
+	}
+
+	//delete movie
+	if (isset($_GET['delete'])){
+		//delete movie poster
+		unlink($_GET['posterDir']);
+		//query to delete
+		$query = "DELETE FROM movie WHERE movie_id = {$_GET['delete']}";
+		mysqli_query($conn, $query);
+		header('Location: movie.php');
 	}
 
 	
