@@ -36,25 +36,25 @@
 				<form class="col-8" action="./addMovie.php" method="post" enctype="multipart/form-data" style="margin: 0px 20px;">
       				<div class="form-group col-8">
         				<label for="inputName">Movie Name</label>
-        				<input type="text" name="movieName" class="form-control col-12" id="inputName"  placeholder="Enter Name">
+        				<input type="text" name="movieName" class="form-control col-12" id="inputName"  placeholder="Enter Name" value="<?php echo $movieName ?>">
       				</div>
               <div class="form-group col-8">
                 <label for="inputName">Movie Duration</label>
-                <input name="movieDuration" type="number" class="form-control col-12" placeholder="minute" step="1" value="">       
+                <input name="movieDuration" type="number" class="form-control col-12" placeholder="Enter duration in Minutes" step="1" value="<?php echo $movieDuration ?>">       
               </div>
       				<div class="form-group col-8">
         				<label for="exampleFormControlTextarea1">Synopsis</label>
-        				<textarea class="form-control col-12" name="movieDesc" id="exampleFormControlTextarea1" rows="3"> </textarea>
+        				<textarea class="form-control col-12" name="movieDesc" id="exampleFormControlTextarea1" rows="3"><?php echo $movieDesc ?></textarea>
       				</div>
 
     				<div class="form-group col-8">
-            			Start Date: <input type=date name="movieStartDate" class="form-control" id="startDate" width="276" />
-            			End Date: <input type="date" name="movieEndDate" class="form-control" id="endDate" width="276" />
+            			Start Date: <input type=date name="movieStartDate" class="form-control" id="startDate" width="276" value="<?php echo $movieStartDate ?>" />
+            			End Date: <input type="date" name="movieEndDate" class="form-control" id="endDate" width="276" value="<?php echo $movieEndDate ?>" />
         		</div>
 
             <div class="form-group col-8">
               <label for="inputName">Movie Price</label>
-              <input name="moviePrice" type="number" class="form-control col-12" placeholder="RM 0.00" step=".10">
+              <input name="moviePrice" type="number" class="form-control col-12" placeholder="RM 0.00" step=".10" value="<?php echo $moviePrice ?>">
             </div>
 
         		<div class="custom-file col-8">
@@ -65,30 +65,40 @@
 
     				<div class="form-group">
     					<br>
-              <button name="addMovie" type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add</button>
+                <?php if (isset($_GET['edit'])){
+                  $id = $_GET['edit'];
+                  echo '<input  type="hidden" name="movieID" value="'.$id.'"></input>';
+                  echo '<button name="editMovie" type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Edit</button>';
+                  echo "<a href='./movie.php' type='button' class='btn btn-outline-danger col-md-2 offset-md-5' >Cancel</a>";
+                }
+                else{
+                  echo '<button name="addMovie" type="submit" class="btn btn-outline-success col-md-2 offset-md-6" margin="40%">Add Movie</button>';
+                }?>
       			</div>
         </form>
 
         <br>
         <div class="container-fluid">
           <?php foreach ($movieList as $movie): ?>
-            <div class="card" style="width: 18rem; margin: 10px;">
-              <img class="card-img-top" src="<?php echo $movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
+            <?php $movieID = $movie['movie_id'];?>
+            <?php $moviePicDir = $movie['pic_location']; ?>
+            <div class="card" style="width: 18rem; margin: 10px; display: inline-block;">
+              <img class="card-img-top " src="<?php echo $movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
               <div class="card-body">
                 <h5 class="card-title"><?php echo $movie['movie_name']; ?></h5>
                 <h6 class="card-subtitle mb-2 text-muted">Duration: <?php echo $movie['movie_duration']; ?></h6>
                 <h6><b>Description</b></h6>
                 <p class="card-text"><?php echo $movie['movie_desciption']; ?></p>
                 <p class="card-text">RM <?php echo $movie['movie_price']; ?></p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <a type="button" href="./movie.php?edit=<?php echo $movieID; ?>" class="btn btn-outline-success col-md-5">Edit</a>
+                  &nbsp;
+                <a type="button" href="./movie.php?delete=<?php echo $movieID; ?>&posterDir=<?php echo $moviePicDir; ?>" class="btn btn-outline-danger col-md-5">Delete</a>
               </div>
             </div>
           <?php endforeach; ?>
         </div>
-        
-
-			</div>
+			
+      </div>
 
 		</div>
 

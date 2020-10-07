@@ -39,11 +39,13 @@ include './addCinema.php'
 
             <?php if (isset($_GET['edit'])) {
               $id = $_GET['edit'];
-        echo '<input  type="hidden" name="cinID" value="'.$id.'"></input>';
-        echo '<button name="editCinema" type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Edit</button>';
-        echo "<a href='./cinema.php' type='button' class='btn btn-outline-danger col-md-2 offset-md-5' >Cancel</a>";
-      } else {
-        echo '<button name="addCinema" type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Add New</button>';} ?>
+              echo '<input  type="hidden" name="cinID" value="'.$id.'"></input>';
+              echo '<button name="editCinema" type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Edit</button>';
+              echo "<a href='./cinema.php' type='button' class='btn btn-outline-danger col-md-2 offset-md-5' >Cancel</a>";
+            } 
+            else {
+              echo '<button name="addCinema" type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Add New</button>';
+            } ?>
           </form>
 
           <br>
@@ -64,9 +66,10 @@ include './addCinema.php'
                   <td><?php echo $cinemaRes['cinema_id']; ?></td>
                   <td><?php echo $cinemaRes['cinema_name']; ?></td>
                   <td><?php echo $cinemaRes['cinema_location']; ?></td>
-                  <td><a type="button" href="./cinema.php?edit=<?php echo $cinID; ?>"class="btn btn-outline-success col-md-5">Edit</a>
-                  &nbsp;
-                  <a type="button" href="./cinema.php?delete=<?php echo $cinID; ?>" class="btn btn-outline-danger col-md-5">Delete</a>
+                  <td>
+                    <a type="button" href="./cinema.php?edit=<?php echo $cinID; ?>"class="btn btn-outline-success col-md-5">Edit</a>
+                    &nbsp;
+                    <a type="button" href="./cinema.php?delete=<?php echo $cinID; ?>" class="btn btn-outline-danger col-md-5">Delete</a>
                   </td>
                 </tr>
             <?php endforeach; ?>  

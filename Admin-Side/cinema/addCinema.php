@@ -14,7 +14,14 @@
 		$cinemaLocation = $_POST['cinemaLocation'];
 		$cinemaDesc = $_POST['cinemaDesc'];
 
-		$query = "INSERT INTO cinema(cinema_name, cinema_description, cinema_location) VALUES('$cinemaName','$cinemaDesc','$cinemaLocation')";
+		$query = "INSERT INTO cinema(
+    cinema_name, 
+    cinema_description, 
+    cinema_location) 
+    VALUES(
+    '$cinemaName',
+    '$cinemaDesc',
+    '$cinemaLocation')";
 		
 		//echo $cinemaName.", ".$cinemaLocation.", ".$cinemaDesc;
 		if (mysqli_query($conn, $query)) {
@@ -47,9 +54,14 @@
     $cinemaLocation = $_POST['cinemaLocation'];
     $cinemaDesc = $_POST['cinemaDesc'];
 
-    $query = "UPDATE cinema SET cinema_name = '$cinemaName', cinema_location ='$cinemaLocation', cinema_description ='$cinemaDesc' WHERE cinema_id = '$cinemaID'";
-	   mysqli_query($conn, $query);
-	   header('Location: cinema.php');
+    $query = "UPDATE cinema SET 
+      cinema_name = '$cinemaName', 
+      cinema_location ='$cinemaLocation', 
+      cinema_description ='$cinemaDesc' 
+    WHERE cinema_id = '$cinemaID'";
+    
+    mysqli_query($conn, $query);
+	  header('Location: cinema.php');
   }
   // Free Result
   mysqli_free_result($res);
