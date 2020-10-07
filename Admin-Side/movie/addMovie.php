@@ -78,7 +78,22 @@
 				$movieEndDate = $_POST['movieEndDate'];
 				$moviePrice = $_POST['moviePrice'];
 
-				$query = "INSERT INTO movie (movie_name, movie_duration, movie_desciption, movie_date_start_aired, movie_date_end_aired, movie_price, pic_location) VALUES ('$movieName','$movieDuration', '$movieDesc', '$movieStartDate', '$movieEndDate', '$moviePrice', '$target_file')";
+				$query = "INSERT INTO movie (
+				movie_name, 
+				movie_duration, 
+				movie_desciption, 
+				movie_date_start_aired, 
+				movie_date_end_aired, 
+				movie_price, 
+				pic_location) 
+				VALUES (
+				'$movieName',
+				'$movieDuration',
+				'$movieDesc',
+				'$movieStartDate', 
+				'$movieEndDate', 
+				'$moviePrice', 
+				'$target_file')";
 
 				//echo $query;
 				if (mysqli_query($conn, $query)) {
@@ -92,6 +107,7 @@
   			} 
 			//error in uploading file
   			else {
+  				unlink($_GET['posterDir']);
     			echo "Sorry, there was an error uploading your file.";
   			}
 		}
@@ -107,6 +123,42 @@
 		mysqli_query($conn, $query);
 		header('Location: movie.php');
 	}
+
+	if (isset($_GET['edit'])){
+	    $query = "SELECT * FROM movie WHERE movie_id = {$_GET['edit']}";
+	    $res = mysqli_query($conn, $query);
+	    $movieInst = mysqli_fetch_array($res);
+
+	    $movieName = $movieInst['movie_name'];
+	    $movieDuration = $movieInst['movie_duration'];
+	    $movieDesc = $movieInst['movie_desciption'];
+		$movieStartDate = $movieInst['movie_date_start_aired'];
+	    $movieEndDate = $movieInst['movie_date_end_aired'];
+	    $moviePrice = $movieInst['movie_price'];
+	    
+  	}
+
+  	if (isset($_POST['editMovie'])) {
+  		$movieID = $_POST['movieID'];
+  		$movieName = $_POST['movieName'];
+  		$movieDuration = $_POST['movieDuration'];
+	    $movieDesc = $_POST['movieDesc'];
+		$movieStartDate = $_POST['movieStartDate'];
+	    $movieEndDate = $_POST['movieEndDate'];
+	    $moviePrice = $_POST['moviePrice'];
+	    
+	    $query = "UPDATE movie SET 
+	    	movie_name = '$movieName', 
+	    	movie_duration = '$movieDuration', 
+	    	movie_desciption = '$movieDesc', 
+	    	movie_date_start_aired = '$movieStartDate', 
+	    	movie_date_end_aired = '$movieEndDate', 
+	    	movie_price = '$moviePrice' 
+	    WHERE movie_id = '$movieID'";
+	   	
+	   	mysqli_query($conn, $query);
+	   	header('Location: movie.php');
+  	}
 
 	
 
