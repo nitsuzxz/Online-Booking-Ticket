@@ -11,11 +11,13 @@
                     <img src="../../Asset/img/Logo.jpg" style="width: 55%;">
                     </span>
               <h1>Register Now</h1>
-              <form>
-              <input type="email" class="input-box" placeholder="Your Email">
-              <input type="password" class="input-box" placeholder="Your Password">
+              <form action="server.php" method="POST">
+              <input type="text" name="email" class="input-box" placeholder="Your Email">
+              <input type="text" name="username" class="input-box" placeholder="Your Username">
+              <input type="password" name="password" class="input-box" placeholder="Your Password">
+              <input type="number" name="age" class="input-box" placeholder="Your Age">
               <p><span><input type="checkbox" ></span> I agree to the Terms of services</p>
-              <button type="button" class="signup-btn">Sign up</button>
+              <button action="server.php" class="signup-btn">Sign up</button>
               <hr>
               <p>Do you have an account ? <a href="../Login/Login.html.html">Sign in</a></p>
 
