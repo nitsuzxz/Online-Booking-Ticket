@@ -77,8 +77,7 @@
           </div>
 
           <table class="table w-75 p-3" style="margin: 0px 20px;">
-
-            <tbody>
+            <tbody id="tableContent">
               <tr>
                 <th scope="row">1</th>
                 <td>Start (12.00AM) End (2.00PM)</td>
@@ -86,7 +85,6 @@
                 <button type="submit" class="btn btn-outline-danger col-md-5">Remove</button>
                 </td>
               </tr>
-              <tr>
           </tbody>
         </table>
        
@@ -157,12 +155,14 @@
 	</body>
 
   <Script>
-
-    function enableHall(){
-
       var showtimeStatus=false;
       var showtimeData=[];
       var selectedTime=[];
+      var startTime;
+
+    function enableHall(){
+
+  
 
       var cinemaID = document.getElementById("cinemaSelection").value;
       if(cinemaID !==""){
@@ -256,11 +256,10 @@
       }
 
       function checkingDate(){
+
         var date=document.getElementById("date").value;
         var hallID=document.getElementById("hallSelection").value;
         var movieID=document.getElementById("movieSelection").value;
-        console.log(date);
-
         var formData = new FormData();
 
            if(hallID !=="" && movieID !=="" && date !==""){
@@ -269,10 +268,6 @@
               formData.append('movieID', movieID);
               formData.append('date', date);
       
-              console.log(hallID);
-              console.log(movieID);
-              console.log(date);
-
               $.ajax({ 
                    url:'showtimeFunction.php',
                     type: 'POST',
@@ -281,8 +276,9 @@
                     processData: false,
                     contentType: false,
                     success: function (data){
-        
-                      showtimeData=JSON.parse(data);     
+                      showtimeData.splice(0,showtimeData.length);
+                      showtimeData=JSON.parse(data) ;     
+                  
                       showtimeStatus=true;
                       document.getElementById("startTime").disabled = false;
                     },
@@ -301,28 +297,92 @@
       }
 
       function addTime(){
-
+  
           var startTime= document.getElementById("startTime").value;
-          selectedTime.push(startTime);
-
+ 
           if(showtimeStatus==true){
-
+         
               for(var i=0; i<showtimeData.length; i++){
+      
+                  if(startTime >= showtimeData[i].aired_startTime && startTime <= showtimeData[i].aired_endTime ){
 
-                for(var j=0; j<selectedTime; j++){
-                  if(selectedTime >= showtimeData[i].aired_showtime && selectedTime <= showtimeData[i].aired_showtime ){
+                    startTime='';
+                    alert("Selected time clash with the existing showtime! Please enter other time");
+                    
+                  }else{
+                    console.log("this is else");
+                    //movie duration
+                     var duration=showtimeData[i].movie_duration;
+                     var dHours=parseInt(duration.split(".")[0]);
+                     var dMins=parseInt(duration.split(".")[1]);
+ 
+                    //inputTime
+          
+                     var sHours=parseInt(startTime.split(":")[0]);
+                     var sMins=parseInt(startTime.split(":")[1]);
 
-}
+                    //generate end time
+                     var hours= dHours+sHours;-6
+                     var mins= dMins+sMins;
 
-                }
+                    // handle min more than 60mins
 
-       
+                     var hoursCounter=0;
 
-                console.log(showtimeData[i]);
+                     while(mins>59){
+                       mins=mins-60;
+                       hoursCounter++;
+                     }
 
+                    hours=hours+hoursCounter;
+
+                     if(hours>23){
+                       hours=hours-24;
+                     }
+
+
+                    
+                     var inputTime= sHours+"."+sMins;
+                     var generatedEndTime=hours+":"+mins;
+                  
+                     if(selectedTime.length==0){
+
+                      selectedTime.push({start:startTime, end:generatedEndTime});
+                      console.log("0000000");
+
+                     }else{
+                             
+                      for(var i=0 ; i<selectedTime.length; i++){
+                         //converted time to double
+                          console.log("here----" +selectedTime.length+"   ini i" +i +" masa"+ selectedTime[i].start+" masa"+ selectedTime[i].end);
+                       var sh= selectedTime[i].start.split(":")[0];
+                       var sm=selectedTime[i].start.split(":")[1];
+                       var convertedStart=sh+"."+sm;
+
+                       var eh= selectedTime[i].start.split(":")[0];
+                       var em=selectedTime[i].start.split(":")[1];
+                       var convertedEnd=eh+"."+em;
+
+                        if(inputTime>=convertedStart && inputTime<=convertedEnd){
+                          console.log(convertedStart +" ........."+convertedEnd);
+                          console.log("input"+inputTime);
+                
+                        }else{
+
+
+                          console.log("b4 push");
+                
+                           selectedTime.push({start:startTime, end:generatedEndTime});
+                     
+                        }
+                      }
+                     }
+                  }
               }
   
           }else{
+
+            console.log("in false");
 
         } 
       } 
@@ -333,3 +393,43 @@
 
 </html>
 
+            
+<!--       
+                  //  if(selectedTime.length>1){
+
+                  //     for (var i=0; i< selectedTime.length; i++){
+                  //       console.log("inside2");
+                      
+                  //        var start= selectedTime[i].start;
+                            
+                  //        var end= selectedTime[i].end;
+
+                  //         for(var j=1; j<selectedTime.length; j++){
+
+                  //           console.log("view lenght="+selectedTime.length + "this j"+ j);
+
+                  //           var compare_start= selectedTime[j].start;
+                            
+                  //           var compare_end= selectedTime[j].end;
+                         
+                  //           console.log(compare_start +">= "+ start +"   "+ compare_end+"<="+end);
+                  //           if(start>compare_start && compare_end<end ){
+                  //             console.log(compare_start >= start && compare_end<=end);
+                  //             console.log("1 "+compare_start >= start );
+                  //             console.log("2 "+start<=compare_start);
+                    
+                  //             selectedTime.splice(j,0);
+                                   
+                  //             alert("Selected time clash with other existing showtime! Please enter other time");
+
+                  //           }
+
+                  //         }
+                  //      }
+                  //  }
+               
+                   
+                  //  for(var i=0; selectedTime.length;i++){
+                  //   $("#tableContent").append("<td>"+ selectedTime[i]+"</td>");
+                  // }
+ -->
