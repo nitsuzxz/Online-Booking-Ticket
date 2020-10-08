@@ -76,15 +76,10 @@
           <button type="button" onclick="addTime()">Select</button>
           </div>
 
-          <table class="table w-75 p-3" style="margin: 0px 20px;">
-            <tbody id="tableContent">
-              <tr>
-                <th scope="row">1</th>
-                <td>Start (12.00AM) End (2.00PM)</td>
-                <td>
-                <button type="submit" class="btn btn-outline-danger col-md-5">Remove</button>
-                </td>
-              </tr>
+          <table class="table w-75 p-3" style="margin: 0px 20px;"  id="table">
+            <tbody>
+            <tr>
+
           </tbody>
         </table>
        
@@ -158,7 +153,9 @@
       var showtimeStatus=false;
       var showtimeData=[];
       var selectedTime=[];
+      var seat=[];
       var startTime;
+      
 
     function enableHall(){
 
@@ -180,9 +177,18 @@
             success: function (data){
               var a=JSON.parse(data);
                 $("#hallSelection").append("<option value=''>Select Hall</option>");
+
+                seat=[];
+
                 for(var i=0; i<a.length; i++){
                   var hall_id=a[i].hall_id;
                   var hall_name=a[i].hall_name;
+                  var seat_row=a[i].seat_row;
+                  var seat_number=a[i].seat_number;
+
+
+                  seat.push({"seat_row":seat_row, "seat_number":seat_number});
+
                   $("#hallSelection").append("<option value='"+hall_id+"'>"+hall_name+"</option>");
                 }
               
@@ -301,99 +307,120 @@
           var startTime= document.getElementById("startTime").value;
           console.log("select"+startTime);
           var existingTime=0;
-          if(showtimeStatus==true){
-         
-              for(var i=0; i<showtimeData.length; i++){
-      
-                  if(startTime >= showtimeData[i].aired_startTime && startTime <= showtimeData[i].aired_endTime ){
-
-                    startTime='';
-                    alert("Selected time clash with the existing showtime! Please enter other time");
-                    
-                  }else{
-            
-                    //movie duration
-                     var duration=showtimeData[i].movie_duration;
-                     var dHours=parseInt(duration.split(".")[0]);
-                     var dMins=parseInt(duration.split(".")[1]);
- 
-                    //inputTime
           
-                     var sHours=parseInt(startTime.split(":")[0]);
-                     var sMins=parseInt(startTime.split(":")[1]);
+          if(startTime!=""){
 
-                    //generate end time
-                     var hours= dHours+sHours;
-                     var mins= dMins+sMins;
-
-                    // handle min more than 60mins
-
-                     var hoursCounter=0;
-
-                     while(mins>59){
-                       mins=mins-60;
-                       hoursCounter++;
-                     }
-
-                    hours=hours+hoursCounter;
-
-                     if(hours>23){
-                       hours=hours-24;
-                     }
-
-                     var inputTime= sHours+"."+sMins;
-                     var generatedEndTime=hours+":"+mins;
-                  
-                     if(selectedTime.length==0){
-
-                      selectedTime.push({start:startTime, end:generatedEndTime});
+            if(showtimeStatus==true){
          
-                     }else{
-                      
+         for(var i=0; i<showtimeData.length; i++){
+ 
+             if(startTime >= showtimeData[i].aired_startTime && startTime <= showtimeData[i].aired_endTime ){
 
-                      //checking existing array
+               startTime='';
+               alert("Selected time clash with the existing showtime! Please enter other time");
+               
+             }else{
+       
+               //movie duration
+                var duration=showtimeData[i].movie_duration;
+                var dHours=parseInt(duration.split(".")[0]);
+                var dMins=parseInt(duration.split(".")[1]);
 
-                      for(var j=0 ; j<selectedTime.length; j+){
-                         //converted time to double
-                       console.log("here----" +selectedTime.length+"   ini i" +j +" masa"+ selectedTime[j].start+" masa"+ selectedTime[j].end);
-                       var sh= selectedTime[j].start.split(":")[0];
-                       var sm=selectedTime[j].start.split(":")[1];
-                       var convertedStart=sh+"."+sm;
+               //inputTime
+     
+                var sHours=parseInt(startTime.split(":")[0]);
+                var sMins=parseInt(startTime.split(":")[1]);
 
-                       var eh= selectedTime[j].start.split(":")[0];
-                       var em=selectedTime[j].start.split(":")[1];
-                       var convertedEnd=eh+"."+em;
+               //generate end time
+                var hours= dHours+sHours;
+                var mins= dMins+sMins;
 
-                        if(inputTime>=convertedStart && inputTime<=convertedEnd){
+               // handle min more than 60mins
 
-                          existingTime++;
-                          alert("Selected time clash with the existing showtime! Please enter other time");
-                  
-      
-                        }
-                        
-                        if(j==selectedTime.length-1){
-                          console.log("check length"+ i)
-                          if(existingTime==0){
-                            console.log("check existingTime"+ existingTime);
-                            selectedTime.push({start:startTime, end:generatedEndTime});
-                            break;
-                        
-                          }
+                var hoursCounter=0;
 
-                      }
-                    }
-                  }
+                while(mins>59){
+                  mins=mins-60;
+                  hoursCounter++;
                 }
+
+               hours=hours+hoursCounter;
+
+                if(hours>23){
+                  hours=hours-24;
+                }
+
+                var inputTime= sHours+"."+sMins;
+                var generatedEndTime=hours+":"+mins;
+             
+                if(selectedTime.length==0){
+
+                 selectedTime.push({"start":startTime, "end":generatedEndTime});
+    
+                }else{
+                 
+                 //checking existing array
+
+                 for(var j=0 ; j<selectedTime.length; j++){
+                    //converted time to double
+                   //start time
+                  var sh= selectedTime[j].start.split(":")[0];
+                  var sm=selectedTime[j].start.split(":")[1];
+                  var convertedStart=sh+"."+sm;
+                     //end time
+                  var eh= selectedTime[j].start.split(":")[0];
+                  var em=selectedTime[j].start.split(":")[1];
+                  var convertedEnd=eh+"."+em;
+
+                   if(inputTime>=convertedStart && inputTime<=convertedEnd){
+
+                     existingTime++;
+                     alert("Selected time clash with the existing showtime! Please enter other time");
+ 
+                   }
+                   
+                   if(j==selectedTime.length-1){
                 
-              }
-  
+                     if(existingTime==0){
+       
+                       selectedTime.push({"start":startTime, "end":generatedEndTime});
+                       break;
+
+                     }
+                 }
+               }
+             }
+           }
+           
+         }
+
+         displayTable();
+
+     }else{
+
+       console.log("in false");
+
+   } 
           }else{
-
-            console.log("in false");
-
-        } 
+            alert("Please enter showtime!")
+          }
       } 
+
+      function displayTable(){
+
+        $("table tbody tr").remove();
+              for(var i=0; i<selectedTime.length; i++){
+
+                var td= " <tr> <th scope='row'>"+ (i+1)+" </th> <td>"+ selectedTime[i].start+"</td> <td>"+ selectedTime[i].end+"</td> <td><button type='button' class='btn btn-outline-danger col-md-5' onclick='removedata("+ i+")'> remove</button></td></tr>";
+                $("table tbody").append(td);
+              }
+      }
+
+      function removedata(i){
+        selectedTime.splice(i,1)
+
+        displayTable();
+      }
 
 
 
