@@ -30,7 +30,10 @@ include ('../../Config/db_config.php');
         $date=$_POST["date"];
 
 
-        $query='SELECT * FROM aired WHERE movie_id= '.$movieID.' AND  hall_id='.$hallID.' AND aired_date="'.$date.'" ';
+
+        $query='SELECT aired.aired_id ,aired.movie_id, aired.hall_id, aired.aired_date, aired.aired_startTime, aired.aired_endTime, movie.movie_duration FROM aired JOIN movie 
+                 ON aired.movie_id=movie.movie_id WHERE aired.movie_id= '.$movieID.' AND  aired.hall_id='.$hallID.' AND aired.aired_date="'.$date.'" ';
+
         $res = mysqli_query($conn, $query);
         $aired = mysqli_fetch_all($res, MYSQLI_ASSOC);
 
