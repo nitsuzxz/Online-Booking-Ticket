@@ -299,7 +299,8 @@
       function addTime(){
   
           var startTime= document.getElementById("startTime").value;
- 
+          console.log("select"+startTime);
+          var existingTime=0;
           if(showtimeStatus==true){
          
               for(var i=0; i<showtimeData.length; i++){
@@ -310,7 +311,7 @@
                     alert("Selected time clash with the existing showtime! Please enter other time");
                     
                   }else{
-                    console.log("this is else");
+            
                     //movie duration
                      var duration=showtimeData[i].movie_duration;
                      var dHours=parseInt(duration.split(".")[0]);
@@ -322,7 +323,7 @@
                      var sMins=parseInt(startTime.split(":")[1]);
 
                     //generate end time
-                     var hours= dHours+sHours;-6
+                     var hours= dHours+sHours;
                      var mins= dMins+sMins;
 
                     // handle min more than 60mins
@@ -340,44 +341,51 @@
                        hours=hours-24;
                      }
 
-
-                    
                      var inputTime= sHours+"."+sMins;
                      var generatedEndTime=hours+":"+mins;
                   
                      if(selectedTime.length==0){
 
                       selectedTime.push({start:startTime, end:generatedEndTime});
-                      console.log("0000000");
-
+         
                      }else{
-                             
-                      for(var i=0 ; i<selectedTime.length; i++){
+                      
+
+                      //checking existing array
+
+                      for(var j=0 ; j<selectedTime.length; j+){
                          //converted time to double
-                          console.log("here----" +selectedTime.length+"   ini i" +i +" masa"+ selectedTime[i].start+" masa"+ selectedTime[i].end);
-                       var sh= selectedTime[i].start.split(":")[0];
-                       var sm=selectedTime[i].start.split(":")[1];
+                       console.log("here----" +selectedTime.length+"   ini i" +j +" masa"+ selectedTime[j].start+" masa"+ selectedTime[j].end);
+                       var sh= selectedTime[j].start.split(":")[0];
+                       var sm=selectedTime[j].start.split(":")[1];
                        var convertedStart=sh+"."+sm;
 
-                       var eh= selectedTime[i].start.split(":")[0];
-                       var em=selectedTime[i].start.split(":")[1];
+                       var eh= selectedTime[j].start.split(":")[0];
+                       var em=selectedTime[j].start.split(":")[1];
                        var convertedEnd=eh+"."+em;
 
                         if(inputTime>=convertedStart && inputTime<=convertedEnd){
-                          console.log(convertedStart +" ........."+convertedEnd);
-                          console.log("input"+inputTime);
-                
-                        }else{
 
-
-                          console.log("b4 push");
-                
-                           selectedTime.push({start:startTime, end:generatedEndTime});
-                     
+                          existingTime++;
+                          alert("Selected time clash with the existing showtime! Please enter other time");
+                  
+      
                         }
+                        
+                        if(j==selectedTime.length-1){
+                          console.log("check length"+ i)
+                          if(existingTime==0){
+                            console.log("check existingTime"+ existingTime);
+                            selectedTime.push({start:startTime, end:generatedEndTime});
+                            break;
+                        
+                          }
+
                       }
-                     }
+                    }
                   }
+                }
+                
               }
   
           }else{
@@ -392,44 +400,3 @@
   </Script>
 
 </html>
-
-            
-<!--       
-                  //  if(selectedTime.length>1){
-
-                  //     for (var i=0; i< selectedTime.length; i++){
-                  //       console.log("inside2");
-                      
-                  //        var start= selectedTime[i].start;
-                            
-                  //        var end= selectedTime[i].end;
-
-                  //         for(var j=1; j<selectedTime.length; j++){
-
-                  //           console.log("view lenght="+selectedTime.length + "this j"+ j);
-
-                  //           var compare_start= selectedTime[j].start;
-                            
-                  //           var compare_end= selectedTime[j].end;
-                         
-                  //           console.log(compare_start +">= "+ start +"   "+ compare_end+"<="+end);
-                  //           if(start>compare_start && compare_end<end ){
-                  //             console.log(compare_start >= start && compare_end<=end);
-                  //             console.log("1 "+compare_start >= start );
-                  //             console.log("2 "+start<=compare_start);
-                    
-                  //             selectedTime.splice(j,0);
-                                   
-                  //             alert("Selected time clash with other existing showtime! Please enter other time");
-
-                  //           }
-
-                  //         }
-                  //      }
-                  //  }
-               
-                   
-                  //  for(var i=0; selectedTime.length;i++){
-                  //   $("#tableContent").append("<td>"+ selectedTime[i]+"</td>");
-                  // }
- -->
