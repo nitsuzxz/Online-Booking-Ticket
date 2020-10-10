@@ -42,4 +42,57 @@ include ('../../Config/db_config.php');
         
 
     }
+
+    if(isset($_POST["selectedTime"], $_POST["seat"])){
+       
+        $hallID=$_POST["hallID_insertdata"];
+        $movieID=$_POST["movieID_insertdata"];
+        $date=$_POST["date_insertdata"];
+        $selectedTime=json_decode($_POST["selectedTime"]);
+        $seats=json_decode($_POST["seat"]);
+       
+        print_r($selectedTime);
+        $datas=array();
+
+        foreach($selectedTime as $index=>$value){
+            
+            $start= $value->start;
+            $end= $value->end;
+           
+            $query='INSERT INTO aired (movie_id, hall_id, aired_date,aired_startTime,aired_endTime) VALUES ('.$movieID.','.$hallID.',"'.$date.'","'.$start.':00","'.$end.':00")';     
+            
+            $res = mysqli_query($conn, $query);
+          
+            $id= mysqli_insert_id($conn);
+
+   
+            array_push($datas,$id);
+
+        
+        }
+
+        print_r($datas);
+
+        // for($i=0; $i < count($datas) ; $i++){
+        //     echo $datas[$i];
+        //     foreach($seats as $seat){
+        //         $seat_rows=$seat->seat_row;
+        //         $seat_numbers= $seat->seat_number;
+
+        //         for($j=0; $j<$seat_rows; $j++){
+        //             $alphabet ="A";
+
+        //             echo $alphabet;
+        //             $alphabet++;
+
+        //         }
+        //     }
+        //     //$query_seat='INSERT INTO seat_record (seat_row, seat_number, aired_id, seat_availablity) VALUES ('.$.')';
+        // }
+        
+
+       
+    }
+      
+
 ?>
