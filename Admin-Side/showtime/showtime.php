@@ -85,7 +85,7 @@
        
 
 
-   					<button type="submit" class="btn btn-outline-success col-md-2 offset-md-5">Add</button>
+   					<button type="button" class="btn btn-outline-success col-md-2 offset-md-5" onclick="insertData()">Add</button>
 
 				</form>
 
@@ -175,7 +175,9 @@
             processData: false,
             contentType: false,
             success: function (data){
+
               var a=JSON.parse(data);
+
                 $("#hallSelection").append("<option value=''>Select Hall</option>");
 
                 seat=[];
@@ -417,9 +419,43 @@
       }
 
       function removedata(i){
-        selectedTime.splice(i,1)
 
+        selectedTime.splice(i,1)
         displayTable();
+
+      }
+
+      function insertData(){
+
+      var formData = new FormData();
+      var movieID=document.getElementById("movieSelection").value;
+      var hallID=document.getElementById("hallSelection").value;
+      var date=document.getElementById("date").value;
+      var insertTime= JSON.stringify(selectedTime);
+      var insertSeat= JSON.stringify(seat);
+     
+      formData.append('selectedTime',insertTime) ;
+      formData.append('seat',insertSeat);
+      formData.append('movieID_insertdata', movieID);
+      formData.append('hallID_insertdata', hallID);
+      formData.append('date_insertdata', date);
+
+      $.ajax({ 
+           url:'showtimeFunction.php',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (datas){
+   
+
+            },
+            error: function(x,e){
+              alert(x+e);
+        }
+        });
+
       }
 
 
