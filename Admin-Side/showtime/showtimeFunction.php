@@ -73,22 +73,47 @@ include ('../../Config/db_config.php');
 
         print_r($datas);
 
-        // for($i=0; $i < count($datas) ; $i++){
-        //     echo $datas[$i];
-        //     foreach($seats as $seat){
-        //         $seat_rows=$seat->seat_row;
-        //         $seat_numbers= $seat->seat_number;
+        for($i=0; $i < count($datas) ; $i++){
 
-        //         for($j=0; $j<$seat_rows; $j++){
-        //             $alphabet ="A";
+    
+            foreach($seats as $seat){
+                $seat_rows=$seat->seat_row;
+                $seat_numbers= $seat->seat_number;
 
-        //             echo $alphabet;
-        //             $alphabet++;
+                $alphabet ='A';
 
-        //         }
-        //     }
-        //     //$query_seat='INSERT INTO seat_record (seat_row, seat_number, aired_id, seat_availablity) VALUES ('.$.')';
-        // }
+                for($row=0; $row<$seat_rows; $row++){
+             
+
+                    $aired_id = $datas[$i];
+                    echo $aired_id;
+                    echo "<br>";
+                    
+                    for($s_numbers=1; $s_numbers<=$seat_numbers; $s_numbers++){
+                        
+                        $query_seat='INSERT INTO seat_record (seat_row, seat_number, aired_id, seat_availablity) VALUES ("'.$alphabet.'", '.$s_numbers.', '.$aired_id.', "Available")';
+
+              
+    
+                        if (mysqli_query($conn,$query_seat)) {
+                               echo $query_seat;
+                            echo "<br>";
+                           echo "success";
+                        }
+                        else{
+                            echo $query_seat;
+                            echo "<br>";
+                        }	
+        
+                    }
+
+                    
+                    ++$alphabet;
+
+                }
+            }
+       
+        }
         
 
        
