@@ -315,7 +315,7 @@
             if(showtimeStatus==true){
          
          for(var i=0; i<showtimeData.length; i++){
- 
+            console.log('s'+showtimeData[i].aired_startTime);
              if(startTime >= showtimeData[i].aired_startTime && startTime <= showtimeData[i].aired_endTime ){
 
                startTime='';
