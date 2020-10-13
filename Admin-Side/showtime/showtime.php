@@ -327,6 +327,11 @@
                 var duration=showtimeData[i].movie_duration;
                 var dHours=parseInt(duration.split(".")[0]);
                 var dMins=parseInt(duration.split(".")[1]);
+  
+               
+                if(isNaN(dMins)){
+                  dMins='0';
+                }
 
                //inputTime
      
