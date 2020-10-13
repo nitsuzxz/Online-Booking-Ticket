@@ -155,7 +155,7 @@
       var selectedTime=[];
       var seat=[];
       var startTime;
-      
+      var duration;
 
     function enableHall(){
 
@@ -235,6 +235,7 @@
                 for(var i=0; i<a.length; i++){
                   var movie_id=a[i].movie_id;
                   var movie_name=a[i].movie_name;
+    
                   $("#movieSelection").append("<option value='"+movie_id+"'>"+movie_name+"</option>");
                 }
                     },
@@ -285,9 +286,16 @@
                     contentType: false,
                     success: function (data){
                       showtimeData.splice(0,showtimeData.length);
-                      showtimeData=JSON.parse(data) ;     
-                  
-                      showtimeStatus=true;
+                      showtimeData=JSON.parse(data) ;
+                      showtimeStatus=false;
+             
+                      if(showtimeData.length==0){
+                        console.log("1"+ showtimeStatus);
+                     }else{
+                        
+                       showtimeStatus=true;
+                       console.log("2"+ showtimeStatus);
+                     }
                       document.getElementById("startTime").disabled = false;
                     },
                     error: function(x,e){
@@ -311,7 +319,7 @@
           var existingTime=0;
           
           if(startTime!=""){
-
+              console.log("showtimeStatus"+ showtimeStatus);
             if(showtimeStatus==true){
          
          for(var i=0; i<showtimeData.length; i++){
@@ -330,7 +338,7 @@
   
                
                 if(isNaN(dMins)){
-                  dMins='0';
+                  dMins=0;
                 }
 
                //inputTime
@@ -405,7 +413,109 @@
 
      }else{
 
-       console.log("in false");
+       console.log("in false"+ duration);
+
+        var movieID=document.getElementById("movieSelection").value;
+        var formData = new FormData();
+
+              formData.append('mId', movieID);
+  
+      
+              $.ajax({ 
+                   url:'showtimeFunction.php',
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data){
+                      var m_duration=JSON.parse(data) ;
+
+                      duration=m_duration[0].movie_duration;
+                                     //movie duration
+                console.log("this is duration"+duration);
+                var dHours=parseInt(duration.split(".")[0]);
+                var dMins=parseInt(duration.split(".")[1]);
+  
+               
+                if(isNaN(dMins)){
+                  dMins='0';
+                }
+
+               //inputTime
+     
+                var sHours=parseInt(startTime.split(":")[0]);
+                var sMins=parseInt(startTime.split(":")[1]);
+
+               //generate end time
+                var hours= dHours+sHours;
+                var mins= dMins+sMins;
+
+               // handle min more than 60mins
+
+                var hoursCounter=0;
+
+                while(mins>59){
+                  mins=mins-60;
+                  hoursCounter++;
+                }
+
+               hours=hours+hoursCounter;
+
+                if(hours>23){
+                  hours=hours-24;
+                }
+
+                var inputTime= sHours+"."+sMins;
+                var generatedEndTime=hours+":"+mins;
+             
+                if(selectedTime.length==0){
+                  //console.log("no array");
+                 selectedTime.push({"start":startTime, "end":generatedEndTime});
+                 console.log("select in false"+ selectedTime[0].start);
+    
+                }else{
+                  console.log("check array");
+                 //checking existing array
+
+                 for(var j=0 ; j<selectedTime.length; j++){
+                    //converted time to double
+                   //start time
+                  var sh= selectedTime[j].start.split(":")[0];
+                  var sm=selectedTime[j].start.split(":")[1];
+                  var convertedStart=sh+"."+sm;
+                     //end time
+                  var eh= selectedTime[j].start.split(":")[0];
+                  var em=selectedTime[j].start.split(":")[1];
+                  var convertedEnd=eh+"."+em;
+
+                   if(inputTime>=convertedStart && inputTime<=convertedEnd){
+
+                     existingTime++;
+                     alert("Selected time clash with the existing showtime! Please enter other time");
+ 
+                   }
+                   
+                   if(j==selectedTime.length-1){
+                
+                     if(existingTime==0){
+       
+                       selectedTime.push({"start":startTime, "end":generatedEndTime});
+                       break;
+
+                     }
+                 }
+               }
+             }
+             displayTable();
+                    
+                    },
+                    error: function(x,e){
+                      alert(x+e);
+                  }
+                });
+       
+
 
    } 
           }else{
