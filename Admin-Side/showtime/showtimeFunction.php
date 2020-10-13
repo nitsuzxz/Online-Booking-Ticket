@@ -92,13 +92,11 @@ include ('../../Config/db_config.php');
                     for($s_numbers=1; $s_numbers<=$seat_numbers; $s_numbers++){
                         
                         $query_seat='INSERT INTO seat_record (seat_row, seat_number, aired_id, seat_availablity) VALUES ("'.$alphabet.'", '.$s_numbers.', '.$aired_id.', "Available")';
-
-              
     
                         if (mysqli_query($conn,$query_seat)) {
-                               echo $query_seat;
+                            echo $query_seat;
                             echo "<br>";
-                           echo "success";
+                            echo "success";
                         }
                         else{
                             echo $query_seat;
@@ -115,8 +113,6 @@ include ('../../Config/db_config.php');
        
         }
         
-
-       
     }
       
 
