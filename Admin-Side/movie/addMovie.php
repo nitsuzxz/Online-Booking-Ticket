@@ -100,6 +100,7 @@
 					header('Location: movie.php');
 				}
 				else{
+					echo "Query x jadi"."<br>";
 					echo $query;
 				}	
 
