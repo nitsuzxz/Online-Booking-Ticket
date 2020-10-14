@@ -563,7 +563,8 @@
             processData: false,
             contentType: false,
             success: function (datas){
-   
+            	console.log("checking redirect");
+   			window.location.href = "./showtime.php";
 
             },
             error: function(x,e){
