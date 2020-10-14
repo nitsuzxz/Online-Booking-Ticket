@@ -36,11 +36,31 @@ include ('../../Config/db_config.php');
 
         $res = mysqli_query($conn, $query);
         $aired = mysqli_fetch_all($res, MYSQLI_ASSOC);
+  
 
+        // if(count($aired)==0){
+
+        //     $query='SELECT movie_duration FROM movie where movie_id='.$movieID.' ';
+
+        //     $res = mysqli_query($conn, $query);
+        //     $aired = mysqli_fetch_all($res, MYSQLI_ASSOC);
+
+        // }
 
          print json_encode($aired);
         
 
+    }
+    if(isset($_POST["mId"])){
+
+        $mId= $_POST["mId"];
+        $query='SELECT movie_duration FROM movie where movie_id='.$mId.' ';
+
+
+        $res = mysqli_query($conn, $query);
+        $duration = mysqli_fetch_all($res, MYSQLI_ASSOC);
+        
+        print json_encode($duration);
     }
 
     if(isset($_POST["selectedTime"], $_POST["seat"])){
