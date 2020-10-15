@@ -383,8 +383,8 @@
                   var sm=selectedTime[j].start.split(":")[1];
                   var convertedStart=sh+"."+sm;
                      //end time
-                  var eh= selectedTime[j].start.split(":")[0];
-                  var em=selectedTime[j].start.split(":")[1];
+                  var eh= selectedTime[j].end.split(":")[0];
+                  var em=selectedTime[j].end.split(":")[1];
                   var convertedEnd=eh+"."+em;
 
                    if(inputTime>=convertedStart && inputTime<=convertedEnd){
@@ -413,8 +413,6 @@
 
      }else{
 
-       console.log("in false"+ duration);
-
         var movieID=document.getElementById("movieSelection").value;
         var formData = new FormData();
 
@@ -439,7 +437,7 @@
   
                
                 if(isNaN(dMins)){
-                  dMins='0';
+                  dMins=0;
                 }
 
                //inputTime
@@ -470,12 +468,12 @@
                 var generatedEndTime=hours+":"+mins;
              
                 if(selectedTime.length==0){
-                  //console.log("no array");
+                  console.log("no array");
                  selectedTime.push({"start":startTime, "end":generatedEndTime});
                  console.log("select in false"+ selectedTime[0].start);
     
                 }else{
-                  console.log("check array");
+                  console.log("check array2");
                  //checking existing array
 
                  for(var j=0 ; j<selectedTime.length; j++){
@@ -485,9 +483,13 @@
                   var sm=selectedTime[j].start.split(":")[1];
                   var convertedStart=sh+"."+sm;
                      //end time
-                  var eh= selectedTime[j].start.split(":")[0];
-                  var em=selectedTime[j].start.split(":")[1];
+                  var eh= selectedTime[j].end.split(":")[0];
+                  var em=selectedTime[j].end.split(":")[1];
                   var convertedEnd=eh+"."+em;
+                  
+                  console.log("nonexisting... input:"+inputTime);
+                  console.log("nonexisting... convertedStart:"+convertedStart);
+                  console.log("nonexisting... convertedEnd:"+convertedEnd);
 
                    if(inputTime>=convertedStart && inputTime<=convertedEnd){
 
