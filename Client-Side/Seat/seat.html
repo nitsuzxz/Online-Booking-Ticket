@@ -1,0 +1,128 @@
+<html>
+<head>
+    <link rel="stylesheet" href="../../Asset/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+
+<body onload="displayseat()">
+    <div class="container" id="seatcontainer">
+        <div class="screen">Screen</div>
+        <!-- <div class="row">
+            <div class="seat" data-value="1">A-1</div>
+            <div class="seat" data-value="2">A-2</div>
+            <div class="seat" data-value="3">A-3</div>
+            <div class="seat" data-value="4">A-4</div>
+            <div class="seat" data-value="5">A-5</div>
+            <div class="seat" data-value="6">A-6</div>
+            <div class="seat" data-value="7">A-7</div>
+            <div class="seat" data-value="8">A-8</div>
+            <div class="seat" data-value="9">A-9</div>
+            <div class="seat occupied" data-value="10">A-10</div>
+            <div class="seat" data-value="11">A-11</div>
+            <div class="seat" data-value="12">A-12</div>
+        </div>
+        <button>this is button</button> -->
+    </div>
+
+</body>
+<script type="text/javascript">
+
+const container = document.querySelector('.container');
+
+function displayseat(){
+    
+    console.log("running");
+    var formData = new FormData();
+
+    var airedID=64;
+    var seatdetails=[];
+    var temp;
+
+   formData.append('airedID', airedID);
+
+
+   $.ajax({ 
+        url:'seat.php',
+         type: 'POST',
+         data: formData,
+         cache: false,
+         processData: false,
+         contentType: false,
+         success: function (data){
+            seatdetails=JSON.parse(data);
+           console.log(seatdetails) ;
+        //    console.log("length"+ seatdetails.length);
+   
+            for(var i=0;i<seatdetails.length;i++){
+                //console.log("check"+ row);
+           
+                if(temp==undefined){
+
+                    temp=seatdetails[i].seat_row;
+                    //console.log("initial row"+ seatdetails[i].seat_row);
+                     console.log("content data row "+ seatdetails[i].seat_row+" seat num "+seatdetails[i].seat_number);
+                     $("#seatcontainer").append('<div class="row" id="'+seatdetails[i].seat_row+'">');
+                     $("#"+seatdetails[i].seat_row+"").append(' <div class="seat" data-value="'+seatdetails[i].seat_number+'">'+seatdetails[i].seat_row+seatdetails[i].seat_number+'</div>');
+
+               
+                }else
+                if(seatdetails[i].seat_row==temp){
+                    console.log("content data "+ seatdetails[i].seat_row+" seat num "+seatdetails[i].seat_number);
+                    $("#"+seatdetails[i].seat_row+"").append(' <div class="seat" data-value="'+seatdetails[i].seat_number+'">'+seatdetails[i].seat_row+seatdetails[i].seat_number+'</div>');
+                    // row=seatdetails[i].seat_row;
+                    temp=seatdetails[i].seat_row;
+                    // console.log("check temp"+temp);
+                    // console.log("check temp"+temp);
+                
+                }else
+                if(seatdetails[i].seat_row!=temp){
+                    console.log("content data row "+ seatdetails[i].seat_row+" seat num "+seatdetails[i].seat_number);
+                    $("#seatcontainer").append('</div>');
+                    $("#seatcontainer").append('<div class="row" id="'+seatdetails[i].seat_row+'">');
+                    $("#"+seatdetails[i].seat_row+"").append(' <div class="seat" data-value="'+seatdetails[i].seat_number+'">'+seatdetails[i].seat_row+seatdetails[i].seat_number+'</div>');
+                    temp=seatdetails[i].seat_row;
+                  
+
+                }
+            }
+            $("#seatcontainer").append(' <div>');
+            $("#seatcontainer").append(' <button>cancel</button>');
+            $("#seatcontainer").append(' <button>book</button>');
+            $("#seatcontainer").append(' </div>');
+            
+          
+ 
+         },
+         error: function(x,e){
+           alert(x+e);
+       }
+     });
+}
+
+    
+// Seat select event
+container.addEventListener('click', e => {
+    if (
+        e.target.classList.contains('seat') &&
+        !e.target.classList.contains('occupied')
+    ) {
+        e.target.classList.toggle('selected');
+
+        updateSelectedSeats();
+    }
+});
+
+const updateSelectedSeats = () => {
+    
+    const selectedSeatNum= document.querySelectorAll('.row .selected');
+    
+    for(let i=0; i< selectedSeatNum.length;i++){
+
+        console.log("heheehindex"+i+".  SEAT NUMBER="+ selectedSeatNum[i].innerText);
+ 
+    }
+  
+};
+</script>
+</html>
