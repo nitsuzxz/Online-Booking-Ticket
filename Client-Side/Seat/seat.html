@@ -35,11 +35,11 @@ function displayseat(){
             contentType: false,
             success: function (data){
                 var showtimeDetails=JSON.parse(data);
-                $("#showtimeDetail").append('<div > '+showtimeDetails[0].cinema_name+'</div>');
-                $("#showtimeDetail").append('<div > '+showtimeDetails[0].movie_name+'</div>');
-                $("#showtimeDetail").append('<div > '+showtimeDetails[0].hall_name+'</div>');
-                $("#showtimeDetail").append('<div > '+showtimeDetails[0].aired_date+'</div>');
-                $("#showtimeDetail").append('<div > '+showtimeDetails[0].aired_startTime+'</div>');
+                $("#showtimeDetail").append('<div > Cinema  : '+showtimeDetails[0].cinema_name+'</div>');
+                $("#showtimeDetail").append('<div > Movie   : '+showtimeDetails[0].movie_name+'</div>');
+                $("#showtimeDetail").append('<div > Hall    : '+showtimeDetails[0].hall_name+'</div>');
+                $("#showtimeDetail").append('<div > Date    : '+showtimeDetails[0].aired_date+'</div>');
+                $("#showtimeDetail").append('<div > Showtime: '+showtimeDetails[0].aired_startTime+'</div>');
 
             },
             error: function(x,e){
