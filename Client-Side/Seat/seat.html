@@ -7,22 +7,8 @@
 
 <body onload="displayseat()">
     <div class="container" id="seatcontainer">
+        <div id=""></div>
         <div class="screen">Screen</div>
-        <!-- <div class="row">
-            <div class="seat" data-value="1">A-1</div>
-            <div class="seat" data-value="2">A-2</div>
-            <div class="seat" data-value="3">A-3</div>
-            <div class="seat" data-value="4">A-4</div>
-            <div class="seat" data-value="5">A-5</div>
-            <div class="seat" data-value="6">A-6</div>
-            <div class="seat" data-value="7">A-7</div>
-            <div class="seat" data-value="8">A-8</div>
-            <div class="seat" data-value="9">A-9</div>
-            <div class="seat occupied" data-value="10">A-10</div>
-            <div class="seat" data-value="11">A-11</div>
-            <div class="seat" data-value="12">A-12</div>
-        </div>
-        <button>this is button</button> -->
     </div>
 
 </body>
@@ -56,39 +42,44 @@ function displayseat(){
    
             for(var i=0;i<seatdetails.length;i++){
                 //console.log("check"+ row);
+                var seatstatus; 
+                if(seatdetails[i].seat_availablity=="Available"){
+                    seatstatus="seat";
+                }else{
+                    seatstatus="seat occupied";
+                }
            
                 if(temp==undefined){
 
                     temp=seatdetails[i].seat_row;
                     //console.log("initial row"+ seatdetails[i].seat_row);
-                     console.log("content data row "+ seatdetails[i].seat_row+" seat num "+seatdetails[i].seat_number);
+                   //  console.log("content data row "+ seatdetails[i].seat_row+" seat num "+seatdetails[i].seat_number);
                      $("#seatcontainer").append('<div class="row" id="'+seatdetails[i].seat_row+'">');
-                     $("#"+seatdetails[i].seat_row+"").append(' <div class="seat" data-value="'+seatdetails[i].seat_number+'">'+seatdetails[i].seat_row+seatdetails[i].seat_number+'</div>');
+                     $("#"+seatdetails[i].seat_row+"").append(' <div class="'+seatstatus+'" data-value="'+seatdetails[i].seat_number+'">'+seatdetails[i].seat_row+'-'+seatdetails[i].seat_number+'</div>');
 
                
                 }else
                 if(seatdetails[i].seat_row==temp){
-                    console.log("content data "+ seatdetails[i].seat_row+" seat num "+seatdetails[i].seat_number);
-                    $("#"+seatdetails[i].seat_row+"").append(' <div class="seat" data-value="'+seatdetails[i].seat_number+'">'+seatdetails[i].seat_row+seatdetails[i].seat_number+'</div>');
+                   // console.log("content data "+ seatdetails[i].seat_row+" seat num "+seatdetails[i].seat_number);
+                    $("#"+seatdetails[i].seat_row+"").append(' <div class="'+seatstatus+'" data-value="'+seatdetails[i].seat_number+'">'+seatdetails[i].seat_row+'-'+seatdetails[i].seat_number+'</div>');
                     // row=seatdetails[i].seat_row;
                     temp=seatdetails[i].seat_row;
                     // console.log("check temp"+temp);
-                    // console.log("check temp"+temp);
-                
+      
                 }else
                 if(seatdetails[i].seat_row!=temp){
-                    console.log("content data row "+ seatdetails[i].seat_row+" seat num "+seatdetails[i].seat_number);
+                  //  console.log("content data row "+ seatdetails[i].seat_row+" seat num "+seatdetails[i].seat_number);
                     $("#seatcontainer").append('</div>');
                     $("#seatcontainer").append('<div class="row" id="'+seatdetails[i].seat_row+'">');
-                    $("#"+seatdetails[i].seat_row+"").append(' <div class="seat" data-value="'+seatdetails[i].seat_number+'">'+seatdetails[i].seat_row+seatdetails[i].seat_number+'</div>');
+                    $("#"+seatdetails[i].seat_row+"").append(' <div class="'+seatstatus+'" data-value="'+seatdetails[i].seat_number+'">'+seatdetails[i].seat_row+'-'+seatdetails[i].seat_number+'</div>');
                     temp=seatdetails[i].seat_row;
                   
 
                 }
             }
             $("#seatcontainer").append(' <div>');
-            $("#seatcontainer").append(' <button>cancel</button>');
-            $("#seatcontainer").append(' <button>book</button>');
+            $("#seatcontainer").append(' <button>CANCEL</button>');
+            $("#seatcontainer").append(' <button onclick="confirmation()">BOOK</button>');
             $("#seatcontainer").append(' </div>');
             
           
@@ -113,16 +104,34 @@ container.addEventListener('click', e => {
     }
 });
 
+var selectedSeat=[];
+
 const updateSelectedSeats = () => {
-    
     const selectedSeatNum= document.querySelectorAll('.row .selected');
-    
+    selectedSeat=[];
     for(let i=0; i< selectedSeatNum.length;i++){
 
-        console.log("heheehindex"+i+".  SEAT NUMBER="+ selectedSeatNum[i].innerText);
+      //  console.log("heheehindex"+i+".  SEAT NUMBER="+ selectedSeatNum[i].innerText);
+        selectedSeat.push(selectedSeatNum[i].innerText);
  
     }
   
 };
+
+function confirmation(){
+
+    console.log("clicked"+selectedSeat.length);
+    sessionStorage.removeItem('selectedSeat');
+
+    if(selectedSeat.length>0){
+        console.log("success");
+        sessionStorage.setItem("selectedSeat", JSON.stringify(selectedSeat));
+        window.location.href = "../payment/payment.html";
+    
+    }else{
+        alert("Please choose seat!");
+    }
+
+}
 </script>
 </html>
