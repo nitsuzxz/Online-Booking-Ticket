@@ -7,7 +7,7 @@
 
 <body onload="displayseat()">
     <div class="container" id="seatcontainer">
-        <div id=""></div>
+        <div id="showtimeDetail"></div>
         <div class="screen">Screen</div>
     </div>
 
@@ -15,6 +15,7 @@
 <script type="text/javascript">
 
 const container = document.querySelector('.container');
+
 
 function displayseat(){
     
@@ -24,8 +25,30 @@ function displayseat(){
     var airedID=64;
     var seatdetails=[];
     var temp;
+    formData.append('showtimeInfo', airedID);
+    $.ajax({ 
+           url:'seat.php',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data){
+                var showtimeDetails=JSON.parse(data);
+                $("#showtimeDetail").append('<div > '+showtimeDetails[0].cinema_name+'</div>');
+                $("#showtimeDetail").append('<div > '+showtimeDetails[0].movie_name+'</div>');
+                $("#showtimeDetail").append('<div > '+showtimeDetails[0].hall_name+'</div>');
+                $("#showtimeDetail").append('<div > '+showtimeDetails[0].aired_date+'</div>');
+                $("#showtimeDetail").append('<div > '+showtimeDetails[0].aired_startTime+'</div>');
 
-   formData.append('airedID', airedID);
+            },
+            error: function(x,e){
+              alert(x+e);
+        }
+        });
+
+    formData = new FormData();
+    formData.append('airedID', airedID);
 
 
    $.ajax({ 
