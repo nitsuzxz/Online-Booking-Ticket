@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="'viewport" content="width=device-width,initial-scale=1.0">
+		<meta charset="utf-8">
+	<title>MainPage</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../Asset/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../Asset/style1.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </head>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-image: url('../Asset/images/background.jpg')">
+            <div class="container"> 
+            <a class="navbar-brand" href="#">SHOWTIME</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-lg-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#home">Movie<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#date">Date</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#location">Location</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#contact">Contact Us</a>
+              </li>
+            </ul>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="logout"><a href="../LogIn/Login.html.html">Log Out</a></button>
+            </form>
+          </div>
+        </div>
+        </nav>
+    </header>
+    <body onload="getmovie()">
+        		
+	<div class="swiper-container" onchange="testt()">
+	    <div class="swiper-wrapper">
+	      <div class="swiper-slide">
+	      	<div class="imgBx">
+	      		<img src="../Asset/images/img1.jpg">
+	      	</div>
+	      	<div class="details">
+	      		<!--First Try ID-->
+	      		<h3>Mulan<br><span></span></h3>
+	      	</div>	
+	      </div>
+	      <div class="swiper-slide">
+	      	<div class="imgBx">
+	      		<img src="../Asset/images/img2.jpg">
+	      	</div>
+	      	<div class="details">
+	      		<h3>Tenet<br><span></span></h3>
+	      	</div>	
+	      </div>
+	      <div class="swiper-slide">
+	      	<div class="imgBx">
+	      		<img src="../Asset/images/img3.jpg">
+	      	</div>
+	      	<div class="details">
+	      		<h3>Monster Run<br><span></span></h3>
+	      	</div>	
+	      </div>
+	      <div class="swiper-slide">
+	      	<div class="imgBx">
+	      		<img src="../Asset/images/img4.jpg">
+	      	</div>
+	      	<div class="details">
+	      		<h3>The Tunnel<br><span></span></h3>
+	      	</div>	
+	      </div>
+	      <div class="swiper-slide">
+	      	<div class="imgBx">
+	      		<img src="../Asset/images/img5.jpg">
+	      	</div>
+	      	<div class="details">
+	      		<h3>Break The Silence<br><span></span></h3>
+	      	</div>	
+	      </div>	
+	      </div>
+        </div>
+        
+        
+	    <!-- Add Pagination -->
+	    <div class="swiper-pagination"></div>
+	  </div>
+	
+	  </div>
+
+    </body>
+	<script type="text/javascript" src="../Asset/swiper.min.js"></script>
+    <script> 
+
+    function getmovie(){
+     var d = new Date();
+     var yyyy = d.getFullYear();
+     var mm   = d.getMonth();
+     var dd   = d.getDate();
+
+     var fulldate=yyyy+'-'+mm+'-'+dd;
+  
+    console.log('ehhehe'+fulldate);
+
+    }
+    var swiper = new Swiper('.swiper-container', {
+	      effect: 'coverflow',
+	      grabCursor: true,
+	      centeredSlides: true,
+          slidesPerView: 'auto',
+          
+	      coverflowEffect: {
+	        rotate: 30,
+	        stretch: 0,
+	        depth: -100,
+	        modifier: 1,
+	        slideShadows: true,
+	      },
+	      pagination: {
+	        el: '.swiper-pagination',
+	      },
+	    });
+
+    
+       swiper.on('slideChange', function () {
+        console.log( this.activeIndex);
+          
+       });
+
+
+    </script>
+</html>
