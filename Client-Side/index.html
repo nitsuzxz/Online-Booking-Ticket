@@ -7,10 +7,10 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="../Asset/swiper.min.css">
-    <link rel="stylesheet" type="text/css" href="../Asset/style1.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="../Asset/style1.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     </head>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-image: url('../Asset/images/background.jpg')">
@@ -54,61 +54,50 @@
 	      		<h3>Mulan<br><span></span></h3>
 	      	</div>	
 	      </div>
-	      <div class="swiper-slide">
-	      	<div class="imgBx">
-	      		<img src="../Asset/images/img2.jpg">
-	      	</div>
-	      	<div class="details">
-	      		<h3>Tenet<br><span></span></h3>
-	      	</div>	
-	      </div>
-	      <div class="swiper-slide">
-	      	<div class="imgBx">
-	      		<img src="../Asset/images/img3.jpg">
-	      	</div>
-	      	<div class="details">
-	      		<h3>Monster Run<br><span></span></h3>
-	      	</div>	
-	      </div>
-	      <div class="swiper-slide">
-	      	<div class="imgBx">
-	      		<img src="../Asset/images/img4.jpg">
-	      	</div>
-	      	<div class="details">
-	      		<h3>The Tunnel<br><span></span></h3>
-	      	</div>	
-	      </div>
-	      <div class="swiper-slide">
-	      	<div class="imgBx">
-	      		<img src="../Asset/images/img5.jpg">
-	      	</div>
-	      	<div class="details">
-	      		<h3>Break The Silence<br><span></span></h3>
-	      	</div>	
-	      </div>	
-	      </div>
         </div>
         
         
 	    <!-- Add Pagination -->
 	    <div class="swiper-pagination"></div>
-	  </div>
+	</div>
 	
-	  </div>
 
     </body>
 	<script type="text/javascript" src="../Asset/swiper.min.js"></script>
     <script> 
 
     function getmovie(){
-     var d = new Date();
-     var yyyy = d.getFullYear();
-     var mm   = d.getMonth();
-     var dd   = d.getDate();
 
-     var fulldate=yyyy+'-'+mm+'-'+dd;
+    var d = new Date();
+    var yyyy = d.getFullYear();
+    var mm   = d.getMonth();
+    var dd   = d.getDate();
+	mm=mm+1;
+
+    var fulldate=yyyy+'-'+mm+'-'+dd;
   
     console.log('ehhehe'+fulldate);
+
+	var formData = new FormData();
+
+    formData.append('getMovie_currentDate', fulldate);
+
+	$.ajax({ 
+           url:'./Mainpage/selectMovie.php',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data){
+
+			 console.log("data1"+data);
+           
+            },
+            error: function(x,e){
+              alert(x+e);
+        }
+        });
 
     }
     var swiper = new Swiper('.swiper-container', {
