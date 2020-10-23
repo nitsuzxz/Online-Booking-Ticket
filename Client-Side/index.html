@@ -43,60 +43,108 @@
     </header>
     <body onload="getmovie()">
         		
-	<div class="swiper-container" onchange="testt()" id="swiperContainer">
+	    <div class="swiper-container" onchange="testt()" id="swiperContainer">
+	      <div class="swiper-wrapper" id="swiper-wrapper"></div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="section layout_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="full">
+                        <div class="heading_main text_align_left">
+  
+                            <div >
+                                <h2>Select Date</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      
+      <div class="dateAll" id="dateContainer">
+        <!-- <div class="dateEach">
+          <div class="date">
+            <label>Sun</label>
+              <button class="login100-form-btn">
+            <a class="txt1" href="#">20</a>
+              </button>
+          </div>
+        </div> -->
+      </div>
+      
+    
+      <div class="section layout_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="full">
+                        <div class="heading_main text_align_left">
+  
+                            <div >
+                                <h2>Select Cinema</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+      
+      <div class="card-body">
 
-	    <div class="swiper-wrapper" id="swiper-wrapper"></div>
-     
-	</div>
-  <div class="swiper-pagination"></div>
+      <div class="section layout_padding" >
+        <div class="container">
+      <div>
+      <a type="button" data-toggle="collapse" data-target="#hehehe" >Cinema EkoCheras</a>
+    </div>
+      
+      <div class="collapse" id="hehehe">
+        <a type="button">
+        <div class="timeHall">
+          <div class="time">
+            11:15 PM
+          </div>
+          <div class="time"><div class="symbol">_________</div></div>
+          <div class="time">Hall 2</div>
+        </div>
+      </a>
+      </div>
+      <div>
+      <a  type="button" data-toggle="collapse" data-target="#hehehes" >
+       Cinema Mid
+    </a>
+  </div>
+    
+    <div class="collapse" id="hehehes">
+      <a type="button">
+      <div class="timeHall">
+        <div class="time">
+          11:15 PM
+        </div>
+        <div class="time"><div class="symbol">_________</div></div>
+        <div class="time">Hall 2</div>
+      </div>
+    </a>
+    </div>
 
+      </div>
+      </div>
+    </div>
+      
     </body>
-	  <script type="text/javascript" src="../Asset/swiper.min.js"></script> 
 
+	  <script type="text/javascript" src="../Asset/swiper.min.js"></script> 
     <script> 
 
-    function getmovie(){
+    var fulldate;
+    var movieInfo=[];
+    var movie;
+    var showtime_details=[];
 
-    var d = new Date();
-    var yyyy = d.getFullYear();
-    var mm   = d.getMonth();
-    var dd   = d.getDate();
-	mm=mm+1;
-
-    var fulldate=yyyy+'-'+mm+'-'+dd;
-  
-    console.log('ehhehe'+fulldate);
-
-	var formData = new FormData();
-
-    formData.append('getMovie_currentDate', fulldate);
-
-	$.ajax({ 
-           url:'./Mainpage/selectMovie.php',
-            type: 'POST',
-            data: formData,
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function (data){
-
-			 console.log("data1"+data);
-			 var movie=JSON.parse(data);
-			
-
-			for(var i=0; i< movie.length; i++){
-			
-       
-        $("#swiper-wrapper").append('<div class="swiper-slide" id="swiper-slide'+i+'"><div class="imgBx" id="imgBx'+i+' "><img src="../Asset/images/img5.jpg"></div></div>');
-        $("#swiper-slide"+i+"").append('<div class="details" id="details'+i+'" ><h3>Break The Silence</h3></div>');
-			}
-            },
-            error: function(x,e){
-              alert(x+e);
-        }
-        });
-
-    }
     var swiper = new Swiper('.swiper-container', {
 	      effect: 'coverflow',
 	      grabCursor: true,
@@ -116,12 +164,112 @@
 	        el: '.swiper-pagination',
 	      },
 	    });
-
     
-       swiper.on('slideChange', function () {
-        console.log( this.activeIndex);
-          
-       });
+   
+
+    function getmovie(){
+
+    var d = new Date();
+    var yyyy = d.getFullYear();
+    var mm   = d.getMonth();
+    var dd   = d.getDate();
+  	mm=mm+1;
+
+    fulldate=yyyy+'-'+mm+'-'+dd;
+  
+    console.log('ehhehe'+fulldate);
+
+  	var formData = new FormData();
+
+    formData.append('getMovie_currentDate', fulldate);
+
+    $.ajax({ 
+      url:'./Mainpage/selectMovie.php',
+      type: 'POST',
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (data){
+
+			  movie=JSON.parse(data);
+        console.log("data1"+movie);
+		
+		    	for(var i=0; i< movie.length; i++){
+
+             $("#swiper-wrapper").append('<div class="swiper-slide" id="swiper-slide'+i+'"><div class="imgBx" id="imgBx'+i+' "><img src="../Asset/images/'+movie[i].pic_location+'"></div></div>');
+             $("#swiper-slide"+i+"").append('<div class="details" id="details'+i+'" ><h3>'+movie[i].movie_name+'</h3></div>');  
+             console.log("id"+ movie[i].movie_id);
+             movieInfo.push({'movie_id': movie[i].movie_id});
+
+		    	}
+
+          fetchAired();
+
+      },
+        error: function(x,e){
+        alert(x+e);
+        }
+    });
+ 
+    }
+
+   
+   
+
+    function fetchAired(){
+      var selectedMovie=swiper.activeIndex;
+
+      var movie_id=movieInfo[selectedMovie].movie_id;
+
+    	var formData = new FormData();
+
+      formData.append('sel_movie', movie_id);
+      formData.append('currentDate', fulldate);
+   
+
+
+     $.ajax({ 
+        
+        url:'./Mainpage/selectMovie.php',
+        type: 'POST',
+        data: formData,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (data){
+            
+           var aired=JSON.parse(data);
+          $("#dateContainer").empty();
+            for(var i=0; i<aired.length; i++){
+              console.log(aired[i]);
+
+              $("#dateContainer").append('<div class="dateEach" id="dateEach"><div class="date"><label>Sun</label><button class="login100-form-btn"><a class="txt1" href="#">20</a></button></div></div>');  
+
+
+
+
+        
+ 
+        
+         
+            
+        
+   
+            }
+
+        },
+          error: function(x,e){
+          alert(x+e);
+          }
+     }); 
+    }
+
+    swiper.on('slideChange', function () {
+      
+      fetchAired();    
+
+    });
 
 
     </script>
