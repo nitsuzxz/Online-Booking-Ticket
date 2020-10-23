@@ -111,7 +111,8 @@
         <table class="table w-75 p-3" style="margin: 0px 20px;">
             <thead>
               <tr>
-                <th style="text-align: center;" scope="col">Cinema ID</th>
+                <th style="text-align: center;" scope="col">No.</th>
+                <th style="text-align: center;" scope="col">Cinema Name</th>
                 <th style="text-align: center;" scope="col">Name</th>
                 <th style="text-align: center;" scope="col">Type</th>
                 <th style="text-align: center;" scope="col">Price</th>
@@ -121,18 +122,18 @@
               </tr>
             </thead>
             <tbody>
-              <?php foreach ($hallList as $hall): ?>
+              <?php $i = 1; foreach ($hallList as $hall): ?>
                 <tr>
-                  <?php $hallID = $hall['hall_id']; ?>
-                  <th style="text-align: center;" scope="row"><?php echo $hall['hall_cinema_id'];?></th>
+                  <td style="text-align: center;" scope="row"><?php echo $i++; ?></th>
+                  <td style="text-align: center;" scope="row"><?php echo $hall['cinema_name'];?></th>
                   <td style="text-align: center;"><?php echo $hall['hall_name'];?></td>
                   <td style="text-align: center;"><?php echo $hall['hall_type'];?></td>
                   <td style="text-align: center;">RM <?php echo $hall['hall_price'];?></td>
                   <td style="text-align: center;"><?php echo $hall['seat_row'];?></td>
                   <td style="text-align: center;"><?php echo $hall['seat_number'];?></td>
-                  <td><a type="button" href="./hall.php?edit=<?php echo $hallID; ?>&cinema=<?php echo $hall['hall_cinema_id']?>" class="btn btn-outline-success col-md-5">Edit</a>
+                  <td><a type="button" href="./hall.php?edit=<?php echo $hallID; ?>&cinema=<?php echo $hall['hall_cinema_id']?>" class="btn btn-outline-success">Edit</a>
                   &nbsp;
-                  <a type="button" href="./hall.php?delete=<?php echo $hallID; ?>" class="btn btn-outline-danger col-md-5">Delete</a>
+                  <a type="button" href="./hall.php?delete=<?php echo $hallID; ?>" class="btn btn-outline-danger">Delete</a>
                   </td>
                 </tr>
               <?php endforeach; ?>

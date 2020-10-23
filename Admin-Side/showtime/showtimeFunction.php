@@ -1,7 +1,33 @@
 <?php 
 
 include ('../../Config/db_config.php');
+    
+    $movieName = '';
+    $startTime = '';
+    $endTime = '';
+    $airedDate = '';
+    $hallName = '';
+    $movieID = '';
+    $cinemaName = '';
+    $query = '';
+    $res = '';
+    $showtimeList = '';
 
+    $query = 'SELECT 
+    movie.movie_name, 
+    aired.aired_startTime, 
+    aired.aired_endTime,
+    aired.aired_date,
+    hall.hall_name, 
+    aired.aired_id,
+    cinema.cinema_name 
+    FROM aired 
+    INNER JOIN hall ON aired.hall_id=hall.hall_id 
+    INNER JOIN cinema on hall.hall_cinema_id=cinema.cinema_id
+    INNER JOIN movie on movie.movie_id = aired.movie_id';
+
+    $res = mysqli_query($conn, $query);
+    $showtimeList = mysqli_fetch_all($res, MYSQLI_ASSOC);
 
     if(isset($_POST["fetchHall"])){
         $cinemaID=$_POST["fetchHall"];
@@ -10,7 +36,6 @@ include ('../../Config/db_config.php');
         $res = mysqli_query($conn, $query);
         $hallList = mysqli_fetch_all($res, MYSQLI_ASSOC);
         print json_encode($hallList);
-
     }
 
     if(isset($_POST["fetchMovie"])){
@@ -20,7 +45,6 @@ include ('../../Config/db_config.php');
         $res = mysqli_query($conn, $query);
         $movieList = mysqli_fetch_all($res, MYSQLI_ASSOC);
         print json_encode($movieList);
-
     }
 
     if(isset($_POST["hallID"], $_POST["movieID"], $_POST["date"])){
@@ -38,9 +62,8 @@ include ('../../Config/db_config.php');
         $aired = mysqli_fetch_all($res, MYSQLI_ASSOC);
   
          print json_encode($aired);
-        
-
     }
+
     if(isset($_POST["mId"])){
 
         $mId= $_POST["mId"];
@@ -77,8 +100,6 @@ include ('../../Config/db_config.php');
 
    
             array_push($datas,$id);
-
-        
         }
 
         print_r($datas);
@@ -114,18 +135,15 @@ include ('../../Config/db_config.php');
                         }	
         
                     }
-
-                    
                     ++$alphabet;
-
                 }
             }
-       
-        }
-
-        //header('Location: showtime.php');
-        
+        }   
     }
-      
 
+    if (isset($_GET['delete'])) {
+        $query = "DELETE FROM aired WHERE aired_id = {$_GET['delete']}";
+        mysqli_query($conn,$query);
+        header('Location: showtime.php');
+    }
 ?>

@@ -9,9 +9,15 @@
 	$movieEndDate = '';
 	$moviePrice = '';
 	$moviePoster = '';
+	$movieStatus = '';
 	$check = '';
 	$uploadOk = '';
 	$query = '';
+
+
+	
+
+
 
 	$query = 'SELECT * FROM movie ORDER BY movie_id ASC';
 
@@ -22,10 +28,11 @@
 
 	if(isset($_POST['addMovie'])){
 		
+		
 		//directory to upload image
 		$target_dir = "../../Asset/img/";
 		//image to be uploaded
-		$target_file = $target_dir . basename($_FILES["moviePoster"]["name"]);
+		$target_file = basename($_FILES["moviePoster"]["name"]);
 		//1 = uploadable, 0 = not uploadable
 		$uploadOk = 1;
 		//get file extension
@@ -78,6 +85,23 @@
 				$movieEndDate = $_POST['movieEndDate'];
 				$moviePrice = $_POST['moviePrice'];
 
+				//get current date
+				$currentDate = date("Y-m-d");
+				//upcoming
+			    if($currentDate < $movieStartDate){
+			    	$movieStatus = 'upcoming';
+			    }
+				
+			    //airing
+			    else if($currentDate >= $movieStartDate && $currentDate <= $movieEndDate){
+			        $movieStatus = 'airing';
+			    }
+			    
+			    //finished
+			    else if($currentDate > $movieEndDate){
+					$movieStatus = 'finished';
+			    }
+
 				$query = "INSERT INTO movie (
 				movie_name, 
 				movie_duration, 
@@ -85,7 +109,8 @@
 				movie_date_start_aired, 
 				movie_date_end_aired, 
 				movie_price, 
-				pic_location) 
+				pic_location,
+				movie_status) 
 				VALUES (
 				'$movieName',
 				'$movieDuration',
@@ -93,7 +118,8 @@
 				'$movieStartDate', 
 				'$movieEndDate', 
 				'$moviePrice', 
-				'$target_file')";
+				'$target_file',
+				'$movieStatus')";
 
 				//echo $query;
 				if (mysqli_query($conn, $query)) {

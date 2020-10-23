@@ -53,17 +53,17 @@ include './addCinema.php'
           <table class="table w-75 p-3" style="margin: 0px 20px;">
             <thead>
               <tr>
-                <th scope="col">Cinema ID</th>
+                <th scope="col">No.</th>
                 <th scope="col">Cinema</th>
                 <th scope="col">Location</th>
                 <th scope="col">Options</th>
               </tr>
             </thead>
             <tbody>
-              <?php foreach($cinemaList as $cinemaRes) : ?>  
+              <?php $i=1; foreach($cinemaList as $cinemaRes) : ?>  
                 <tr>
-                  <?php $cinID = $cinemaRes['cinema_id']; ?>
-                  <td><?php echo $cinemaRes['cinema_id']; ?></td>
+                  
+                  <td><?php echo $i++; ?></td>
                   <td><?php echo $cinemaRes['cinema_name']; ?></td>
                   <td><?php echo $cinemaRes['cinema_location']; ?></td>
                   <td>

@@ -58,8 +58,8 @@
             </div>
 
         		<div class="custom-file col-8">
-      					<label class="custom-file-label" for="customFile">Upload Movie Poster</label>
-                <input type="file" name="moviePoster" class="custom-file-input" id="customFile">
+      					<!--<label class="custom-file-label" for="customFile">Upload Movie Poster</label>-->
+                <input type="file" name="moviePoster" class="form-control-file" id="customFile">
       					
     				</div>
 
@@ -83,9 +83,12 @@
             <?php $movieID = $movie['movie_id'];?>
             <?php $moviePicDir = $movie['pic_location']; ?>
             <div class="card" style="width: 18rem; margin: 10px; display: inline-block;">
-              <img class="card-img-top " src="<?php echo $movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
+              <img class="card-img-top " src="<?php echo "../../Asset/img/".$movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
               <div class="card-body">
                 <h5 class="card-title"><?php echo $movie['movie_name']; ?></h5>
+                <h5 class="card-subtitle mb-2 text-muted" style=""><?php echo $movie['movie_status']; ?></h5>
+                <h5 class="card-subtitle mb-2 text-muted" style="">Start: <?php echo $movie['movie_date_start_aired']; ?></h5>
+                <h5 class="card-subtitle mb-2 text-muted" style="">End: <?php echo $movie['movie_date_end_aired']; ?></h5>
                 <h6 class="card-subtitle mb-2 text-muted">Duration: <?php echo $movie['movie_duration']; ?></h6>
                 <h6><b>Description</b></h6>
                 <p class="card-text"><?php echo $movie['movie_desciption']; ?></p>

@@ -1,5 +1,5 @@
 <?php
-  include ('../../Config/db_config.php');
+  include './showtimeFunction.php';
 ?>
 
 <!DOCTYPE html>
@@ -95,51 +95,32 @@
             <thead>
               <tr>
                 <th scope="col">No.</th>
+                <th scope="col">Movie</th>
+                <th scope="col">Air Date</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
                 <th scope="col">Cinema</th>
                 <th scope="col">Hall</th>
-                <th scope="col">Type</th>
-                <th scope="col">Price</th>
-                <th scope="col">Layout</th>
-                <th scope="col">Options</th>
+                <th scope="col" style="text-align: center;">Options</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Place 1</td>
-                <td>*</td>
-                <td>?</td>
-                <td>RMXX</td>
-                <td>X</td>
-                <td><button type="submit" class="btn btn-outline-success col-md-5">Edit</button>
-                &nbsp;
-                <button type="submit" class="btn btn-outline-danger col-md-5">Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                  <td>Place 2</td>
-                  <td>*</td>
-                  <td>?</td>
-                  <td>RMXX</td>
-                  <td>X</td>
-                  <td><button type="submit" class="btn btn-outline-success col-md-5">Edit</button>
-                &nbsp;
-                <button type="submit" class="btn btn-outline-danger col-md-5">Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                  <td>Place 3</td>
-                  <td>*</td>
-                  <td>?</td>
-                  <td>RMXX</td>
-                  <td>X</td>
-                  <td><button type="submit" class="btn btn-outline-success col-md-5">Edit</button>
-                &nbsp;
-                <button type="submit" class="btn btn-outline-danger col-md-5">Delete</button>
-                </td>
-              </tr>
+
+              <?php $i=1; foreach($showtimeList as $showTimeItem) : ?>  
+                <tr>
+                  <?php $showTimeID = $showTimeItem['aired_id']?>
+                  <td><?php echo $i++; ?></td>
+                  <td><?php echo $showTimeItem['movie_name']; ?></td>
+                  <td><?php echo $showTimeItem['aired_date']; ?></td>
+                  <td><?php echo $showTimeItem['aired_startTime']; ?></td>
+                  <td><?php echo $showTimeItem['aired_endTime']; ?></td>
+                  <td><?php echo $showTimeItem['cinema_name']; ?></td>
+                  <td><?php echo $showTimeItem['hall_name']; ?></td>
+                  <td>
+                    <a type="button" href="./showtime.php?delete=<?php echo $showTimeID; ?>" class="btn btn-outline-danger">Delete</a>
+                  </td>
+                </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
 

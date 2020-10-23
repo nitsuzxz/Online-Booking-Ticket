@@ -7,7 +7,9 @@
 	$hallRow = '';
 	$hallSeatsPerRow = '';
 
-	$query = 'SELECT * FROM hall ORDER BY hall_cinema_id ASC';
+	$query = 'SELECT * FROM hall 
+	INNER JOIN cinema ON hall.hall_cinema_id = cinema.cinema_id
+	ORDER BY hall_cinema_id ASC';
 
   	$res = mysqli_query($conn, $query);
   	$hallList = mysqli_fetch_all($res, MYSQLI_ASSOC);
