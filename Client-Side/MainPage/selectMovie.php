@@ -16,13 +16,6 @@ if(isset($_POST["getMovie_currentDate"])){
         $endDate    = $moviedetails['movie_date_end_aired'];
         $status     = $moviedetails['movie_status'];
 
-        // echo "run";
-        // echo " current date is ".$currentDate;
-        // echo " movie end date is ". $endDate;
-        // echo " movie status is ". $status;
-        // echo "<br>";
-
-
         if($currentDate>$endDate){
 
             if($status=="aired"){
@@ -53,7 +46,24 @@ if(isset($_POST["getMovie_currentDate"])){
 }
 
 
+if(isset($_POST['sel_movie']) && $_POST['currentDate']){
 
+
+    $movie_id= $_POST['sel_movie'];
+    $currentDate= $_POST['currentDate'];
+
+    $query="SELECT aired_startTime,aired.aired_date,aired.movie_id, hall.hall_name, cinema.cinema_name FROM aired 
+            INNER JOIN hall ON aired.hall_id=hall.hall_id 
+            INNER JOIN cinema on hall.hall_cinema_id=cinema.cinema_id
+            WHERE aired.movie_id=$movie_id AND aired.aired_date>='$currentDate'";
+
+    $run=mysqli_query($conn,$query);
+    $fetch=mysqli_fetch_all($run,MYSQLI_ASSOC);
+
+
+    print json_encode($fetch);
+
+    }
 
 
 ?>
