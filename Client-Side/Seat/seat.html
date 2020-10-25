@@ -15,15 +15,23 @@
 
 <script type="text/javascript">
 
+//check user has sign in or not
+
+
+var user_id=JSON.parse(sessionStorage.getItem("user_id"));
+
+if(user_id==null){
+    alert("Please Login first");
+    window.location.href = "../Login/login.html";
+}
 const container = document.querySelector('.container');
 
+var airedID=JSON.parse(sessionStorage.getItem("airedID"));
 
 function displayseat(){
     
     console.log("running");
     var formData = new FormData();
-
-    var airedID=64;
     var seatdetails=[];
     var temp;
     formData.append('showtimeInfo', airedID);
@@ -102,7 +110,7 @@ function displayseat(){
                 }
             }
             $("#seatcontainer").append(' <div>');
-            $("#seatcontainer").append(' <button>CANCEL</button>');
+            $("#seatcontainer").append(' <button onclick="cancel()">CANCEL</button>');
             $("#seatcontainer").append(' <button onclick="confirmation()">BOOK</button>');
             $("#seatcontainer").append(' </div>');
             
@@ -150,12 +158,18 @@ function confirmation(){
     if(selectedSeat.length>0){
         console.log("success");
         sessionStorage.setItem("selectedSeat", JSON.stringify(selectedSeat));
+        sessionStorage.setItem("airedID", JSON.stringify(airedID));
         window.location.href = "../payment/payment.html";
     
     }else{
         alert("Please choose seat!");
     }
 
+}
+
+function cancel (){
+    localStorage.removeItem("airedID");
+    window.location.href="../index.html";
 }
 </script>
 </html>
