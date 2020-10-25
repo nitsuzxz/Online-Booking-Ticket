@@ -35,8 +35,6 @@
                 <a class="nav-link" href="#contact">Contact Us</a>
               </li>
             </ul>
-              <button class="btn btn-outline-success my-2 my-sm-0" type="logout"><a href="../LogIn/Login.html.html">Log Out</a></button>
-            </form>
           </div>
         </div>
         </nav>
@@ -63,7 +61,7 @@
             </div>
         </div>
     </div>
-      
+    <!-- Display Date -->
       <div class="dateAll" id="dateContainer">
         <!-- <div class="dateEach">
           <div class="date">
@@ -94,48 +92,46 @@
     </div>
    
       
-      <div class="card-body">
-
+    <div class="card-body">
       <div class="section layout_padding" >
         <div class="container">
-      <div>
-      <a type="button" data-toggle="collapse" data-target="#hehehe" >Cinema EkoCheras</a>
-    </div>
-      
-      <div class="collapse" id="hehehe">
-        <a type="button">
-        <div class="timeHall">
-          <div class="time">
-            11:15 PM
-          </div>
-          <div class="time"><div class="symbol">_________</div></div>
-          <div class="time">Hall 2</div>
-        </div>
-      </a>
-      </div>
-      <div>
-      <a  type="button" data-toggle="collapse" data-target="#hehehes" >
-       Cinema Mid
-    </a>
-  </div>
-    
-    <div class="collapse" id="hehehes">
-      <a type="button">
-      <div class="timeHall">
-        <div class="time">
-          11:15 PM
-        </div>
-        <div class="time"><div class="symbol">_________</div></div>
-        <div class="time">Hall 2</div>
-      </div>
-    </a>
-    </div>
 
-      </div>
+          <div id="cinemaContainer"></div>
+
+          
+          <div id="airedContainer" >
+    
+          </div>
+
+   
+    
+
+        </div>
       </div>
     </div>
       
+    
     </body>
+    <footer class="site-footer" id="contact">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-sm-6 col-xs-12">
+            <p class="copyright-text">UniKL Student 2020 Jan Intake.
+            </p>
+          </div>
+
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <ul class="social-icons">
+              <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+              <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+              <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>   
+            </ul>
+          </div>
+        </div>
+      </div>
+</footer>
 
 	  <script type="text/javascript" src="../Asset/swiper.min.js"></script> 
     <script> 
@@ -144,6 +140,13 @@
     var movieInfo=[];
     var movie;
     var showtime_details=[];
+    var days= ["Sun","Mon","Tue","Wed", "Thur","Fri", "Sat"];
+    var d = new Date();
+    var yyyy = d.getFullYear();
+    var mm   = d.getMonth();
+    var dd   = d.getDate();
+  	mm=mm+1;
+
 
     var swiper = new Swiper('.swiper-container', {
 	      effect: 'coverflow',
@@ -169,12 +172,18 @@
 
     function getmovie(){
 
-    var d = new Date();
-    var yyyy = d.getFullYear();
-    var mm   = d.getMonth();
-    var dd   = d.getDate();
-  	mm=mm+1;
+    //append login or logout button
 
+        var user_id=JSON.parse(sessionStorage.getItem("user_id"));
+            
+            if(user_id==null){
+            $("#navbarSupportedContent").append('  <button class="btn btn-success my-2 my-sm-0" type="logout" onclick="logout()"><a>Login</a></button>');
+            }else{
+            $("#navbarSupportedContent").append('<button class="btn btn-danger my-2 my-sm-0" type="logout" onclick="logout()"><a>Log Out</a></button>');
+            }
+  
+
+  
     fulldate=yyyy+'-'+mm+'-'+dd;
   
     console.log('ehhehe'+fulldate);
@@ -204,7 +213,7 @@
 
 		    	}
 
-          fetchAired();
+          fetchDate();
 
       },
         error: function(x,e){
@@ -215,14 +224,12 @@
     }
 
    
-   
+    var movie_id;
 
-    function fetchAired(){
+    function fetchDate(){
       var selectedMovie=swiper.activeIndex;
-
-      var movie_id=movieInfo[selectedMovie].movie_id;
-
-    	var formData = new FormData();
+      var formData = new FormData();
+      movie_id=movieInfo[selectedMovie].movie_id;
 
       formData.append('sel_movie', movie_id);
       formData.append('currentDate', fulldate);
@@ -241,21 +248,17 @@
             
            var aired=JSON.parse(data);
           $("#dateContainer").empty();
+  
+          
+
+
             for(var i=0; i<aired.length; i++){
-              console.log(aired[i]);
+              console.log(aired[i].aired_date);
+              var movie_airedDate = new Date(aired[i].aired_date);
+              var c= movie_airedDate.getDate();
+              var selected_airedDate="'"+  aired[i].aired_date +"'";
+              $("#dateContainer").append('<div class="dateEach" id="dateEach"><div class="date"><label>Sun</label><button  onclick="findMovie('+selected_airedDate+' ,'+movie_id+' )" class="login100-form-btn"><a class="txt1" href="#">'+c+'</a></button></div></div>');  
 
-              $("#dateContainer").append('<div class="dateEach" id="dateEach"><div class="date"><label>Sun</label><button class="login100-form-btn"><a class="txt1" href="#">20</a></button></div></div>');  
-
-
-
-
-        
- 
-        
-         
-            
-        
-   
             }
 
         },
@@ -265,11 +268,88 @@
      }); 
     }
 
+
+    function findMovie (m_date,m_id){
+        console.log("m_date"+ m_date+'m_id'+m_id); 
+
+      var formData = new FormData();
+     
+      formData.append('m_id', m_id);
+      formData.append('m_date', m_date);
+   
+     $.ajax({ 
+        
+        url:'./Mainpage/selectMovie.php',
+        type: 'POST',
+        data: formData,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (data){
+        
+           
+             var airedDetails=JSON.parse(data);
+             console.log(airedDetails);
+
+             $("#cinemaContainer").empty();
+             $("#airedContainer").empty();
+            for(var i=0; i<airedDetails.length; i++){
+
+              
+              var movie_containerID = document.getElementById(""+ airedDetails[i].cinema_name+"");
+
+              if(movie_containerID){
+                console.log("exist");
+              }else{
+                console.log("not exist");
+                movie_containerID =airedDetails[i].cinema_name;
+                movie_containerID =movie_containerID.replace(/\s+/g, '');
+                console.log("read"+movie_containerID);
+    
+                $("#cinemaContainer").append(' <div id="group'+ movie_containerID+'" class="btn btn-light" >   <a type="button" data-toggle="collapse" data-target="#'+ movie_containerID+'" >'+movie_containerID+'</a></div>');
+            
+           
+              }
+
+              $("#airedContainer").append('<div><div class="collapse" id="'+ movie_containerID+'" ><a type="button" class="btn btn-light" onclick="navigate('+airedDetails[i].aired_id+')" > <div class="timeHall"> <div class="time">  11:15 PM</div> <div class="time"><div class="symbol">_________</div></div>  <div class="time">'+ airedDetails[i].hall_name+'</div></div></a></div></div>')
+
+           
+              
+                
+                
+            
+
+            }
+
+         
+        }, 
+          error: function(x,e){
+          alert(x+e);
+          }
+     }); 
+    }
+
     swiper.on('slideChange', function () {
+      console.log("run");
       
-      fetchAired();    
+      fetchDate();    
 
     });
+
+    function navigate(e){
+      console.log("navigate"+e)
+      console.log("success");
+
+      // console.log("storage"+JSON.parse(sessionStorage.getItem("selectedSeat")));
+        sessionStorage.setItem("airedID", JSON.stringify(e));
+        window.location.href = "./Seat/seat.html";
+    }
+
+    function logout(){
+
+      sessionStorage.clear();
+      window.location.href = "./Login/login.html";
+    }
 
 
     </script>
