@@ -24,9 +24,14 @@ if(user_id==null){
     alert("Please Login first");
     window.location.href = "../Login/login.html";
 }
+
 const container = document.querySelector('.container');
 
 var airedID=JSON.parse(sessionStorage.getItem("airedID"));
+if(airedID==null){
+  
+  window.location.href = "../index.html";
+}
 
 function displayseat(){
     
@@ -110,7 +115,7 @@ function displayseat(){
                 }
             }
             $("#seatcontainer").append(' <div>');
-            $("#seatcontainer").append(' <button onclick="cancel()">CANCEL</button>');
+            $("#seatcontainer").append(' <button style="background-color: #f44336;" onclick="cancel()">CANCEL</button>');
             $("#seatcontainer").append(' <button onclick="confirmation()">BOOK</button>');
             $("#seatcontainer").append(' </div>');
             
