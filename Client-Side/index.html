@@ -41,7 +41,7 @@
     </header>
     <body onload="getmovie()">
       <div>
-	    <div class="swiper-container" onchange="testt()" id="swiperContainer">
+	    <div class="swiper-container"  id="swiperContainer">
 	      <div class="swiper-wrapper" id="swiper-wrapper"></div>
       </div>
       <div class="swiper-pagination"></div>
@@ -128,6 +128,16 @@
 	  <script type="text/javascript" src="../Asset/swiper.min.js"></script> 
     <script> 
 
+  //append login or logout button
+
+    var user_id=JSON.parse(sessionStorage.getItem("user_id"));
+            
+    if(user_id==null){
+      $("#navbarSupportedContent").append('  <button class="btn btn-success my-2 my-sm-0" type="logout" onclick="logout()"><a>Login</a></button>');
+    }else{
+      $("#navbarSupportedContent").append('<button class="btn btn-danger my-2 my-sm-0" type="logout" onclick="logout()"><a>Log Out</a></button>');
+    }
+
     var fulldate;
     var movieInfo=[];
     var movie;
@@ -164,18 +174,6 @@
 
     function getmovie(){
 
-    //append login or logout button
-
-        var user_id=JSON.parse(sessionStorage.getItem("user_id"));
-            
-            if(user_id==null){
-            $("#navbarSupportedContent").append('  <button class="btn btn-success my-2 my-sm-0" type="logout" onclick="logout()"><a>Login</a></button>');
-            }else{
-            $("#navbarSupportedContent").append('<button class="btn btn-danger my-2 my-sm-0" type="logout" onclick="logout()"><a>Log Out</a></button>');
-            }
-  
-
-  
     fulldate=yyyy+'-'+mm+'-'+dd;
   
     console.log('ehhehe'+fulldate);
@@ -299,12 +297,13 @@
                 console.log("read"+movie_containerID);
     
                 $("#cinemaContainer").append(' <div id="group'+ movie_containerID+'" class="btn btn-light" >   <a type="button" data-toggle="collapse" data-target="#'+ movie_containerID+'" >'+movie_containerID+'</a></div>');
+                $("#cinemaContainer").append(' <br>');
             
            
               }
 
               $("#airedContainer").append('<div><div class="collapse" id="'+ movie_containerID+'" ><a type="button" class="btn btn-light" onclick="navigate('+airedDetails[i].aired_id+')" > <div class="timeHall"> <div class="time">  11:15 PM</div> <div class="time"><div class="symbol">_________</div></div>  <div class="time">'+ airedDetails[i].hall_name+'</div></div></a></div></div>')
-
+              $("#airedContainer").append(' <br>');
            
               
                 
