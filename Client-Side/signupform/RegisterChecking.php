@@ -24,7 +24,7 @@
         {header("../MainPage/MainPage.html");
          ?>
                 <script>
-                   window.location.href="../MainPage/MainPage.html";
+                   window.location.href="../Login/Login.html";
                 </script>
                 <?php
         }
