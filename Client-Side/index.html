@@ -83,7 +83,7 @@
                         <div class="heading_main text_align_left">
   
                             <div >
-                                <h2>Select Cinema</h2>
+                                <h2 id="txtcinema" hidden>Select Cinema</h2>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
 		
 		    	for(var i=0; i< movie.length; i++){
 
-             $("#swiper-wrapper").append('<div class="swiper-slide" id="swiper-slide'+i+'"><div class="imgBx" id="imgBx'+i+' "><img src="../Asset/images/'+movie[i].pic_location+'"></div></div>');
+             $("#swiper-wrapper").append('<div class="swiper-slide" id="swiper-slide'+i+'"><div class="imgBx" id="imgBx'+i+' "><img src="../Admin-side/movie/'+movie[i].pic_location+'"></div></div>');
              $("#swiper-slide"+i+"").append('<div class="details" id="details'+i+'" ><h3>'+movie[i].movie_name+'</h3></div>');  
              console.log("id"+ movie[i].movie_id);
              movieInfo.push({'movie_id': movie[i].movie_id});
@@ -246,8 +246,10 @@
               console.log(aired[i].aired_date);
               var movie_airedDate = new Date(aired[i].aired_date);
               var c= movie_airedDate.getDate();
+              var day= movie_airedDate.getDay();
+              console.log("this is days"+ day);
               var selected_airedDate="'"+  aired[i].aired_date +"'";
-              $("#dateContainer").append('<div class="dateEach" id="dateEach"><div class="date"><label>Sun</label><button  onclick="findMovie('+selected_airedDate+' ,'+movie_id+' )" class="login100-form-btn"><a class="txt1" href="#">'+c+'</a></button></div></div>');  
+              $("#dateContainer").append('<div class="dateEach" id="dateEach"><div class="date"><label>'+days[day]+'</label><button  onclick="findMovie('+selected_airedDate+' ,'+movie_id+' )" class="login100-form-btn"><a class="txt1" href="#">'+c+'</a></button></div></div>');  
 
             }
 
@@ -283,6 +285,7 @@
 
              $("#cinemaContainer").empty();
              $("#airedContainer").empty();
+             document.getElementById("txtcinema").hidden = false;
             for(var i=0; i<airedDetails.length; i++){
 
               
@@ -295,15 +298,32 @@
                 movie_containerID =airedDetails[i].cinema_name;
                 movie_containerID =movie_containerID.replace(/\s+/g, '');
                 console.log("read"+movie_containerID);
-    
-                $("#cinemaContainer").append(' <div id="group'+ movie_containerID+'" class="btn btn-light" >   <a type="button" data-toggle="collapse" data-target="#'+ movie_containerID+'" >'+movie_containerID+'</a></div>');
-                $("#cinemaContainer").append(' <br>');
+                $("#cinemaContainer").append('<hr/>');
+                $("#cinemaContainer").append('<div id="group'+ movie_containerID+'" class="btn btn-light" >   <a type="button" data-toggle="collapse" data-target="#'+ movie_containerID+'" >'+movie_containerID+'</a></div>');
+                $("#cinemaContainer").append('<hr/>');
             
            
               }
 
-              $("#airedContainer").append('<div><div class="collapse" id="'+ movie_containerID+'" ><a type="button" class="btn btn-light" onclick="navigate('+airedDetails[i].aired_id+')" > <div class="timeHall"> <div class="time">  11:15 PM</div> <div class="time"><div class="symbol">_________</div></div>  <div class="time">'+ airedDetails[i].hall_name+'</div></div></a></div></div>')
-              $("#airedContainer").append(' <br>');
+              var original_time=airedDetails[i].aired_startTime;
+              console.log("ori"+ original_time);
+
+              var hour=original_time.split(":")[0];
+              var min=original_time.split(":")[0];
+              var state;
+
+              if(hour>12){
+                hour=hour-12;
+                state="p.m";
+              }else{
+                state="a.m";
+              }
+
+              finalTime=hour+":"+min+" "+state;
+
+
+              $("#cinemaContainer").append('<div><div class="collapse" id="'+ movie_containerID+'" ><a type="button" class="btn btn-light" onclick="navigate('+airedDetails[i].aired_id+')" > <div class="timeHall"> <div class="time"> '+finalTime+'</div> <div class="time"><div class="symbol">_________</div></div>  <div class="time">'+ airedDetails[i].hall_name+'</div></div></a></div></div>')
+          
            
               
                 
@@ -322,6 +342,10 @@
 
     swiper.on('slideChange', function () {
       console.log("run");
+      
+      $("#cinemaContainer").empty();
+             $("#airedContainer").empty();
+             document.getElementById("txtcinema").hidden = true;
       
       fetchDate();    
 
