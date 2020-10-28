@@ -82,22 +82,33 @@
           <?php foreach ($movieList as $movie): ?>
             <?php $movieID = $movie['movie_id'];?>
             <?php $moviePicDir = $movie['pic_location']; ?>
-            <div class="card" style="width: 18rem; margin: 10px; display: inline-block;">
-              <img class="card-img-top " src="<?php echo "../../Asset/img/".$movie['pic_location'] ?>" alt="../../Asset/img/default-movie-800x800.jpg">
-              <div class="card-body">
-                <h5 class="card-title"><?php echo $movie['movie_name']; ?></h5>
-                <h5 class="card-subtitle mb-2 text-muted" style=""><?php echo $movie['movie_status']; ?></h5>
-                <h5 class="card-subtitle mb-2 text-muted" style="">Start: <?php echo $movie['movie_date_start_aired']; ?></h5>
-                <h5 class="card-subtitle mb-2 text-muted" style="">End: <?php echo $movie['movie_date_end_aired']; ?></h5>
-                <h6 class="card-subtitle mb-2 text-muted">Duration: <?php echo $movie['movie_duration']; ?></h6>
+            <div class="card">
+        <div class="row no-gutters">
+            <div class="col-auto">
+                <img class="img-fluid" src="<?php echo "./".$movie['pic_location'] ?>" alt="">
+            </div>
+            <div class="col">
+                <div class="card-block px-2">
+                    <h4 class="card-title"><b><?php echo $movie['movie_name']; ?></b></h4>
+                    <p class="card-text"><b>Details</b></p>
+                    <h6 class="card-subtitle mb-2 text-muted" style="">Start: <?php echo $movie['movie_date_start_aired']; ?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted" style="">End: <?php echo $movie['movie_date_end_aired']; ?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Duration  : <?php echo $movie['movie_duration']; ?>hours</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Price     : RM <?php echo $movie['movie_price']; ?></h6>
+          
                 <h6><b>Description</b></h6>
                 <p class="card-text"><?php echo $movie['movie_desciption']; ?></p>
-                <p class="card-text">RM <?php echo $movie['movie_price']; ?></p>
+
                 <a type="button" href="./movie.php?edit=<?php echo $movieID; ?>" class="btn btn-outline-success col-md-5">Edit</a>
                   &nbsp;
                 <a type="button" href="./movie.php?delete=<?php echo $movieID; ?>&posterDir=<?php echo $moviePicDir; ?>" class="btn btn-outline-danger col-md-5">Delete</a>
-              </div>
+               
+                </div>
             </div>
+        </div>
+    </div>
+            
+   
           <?php endforeach; ?>
         </div>
 			
