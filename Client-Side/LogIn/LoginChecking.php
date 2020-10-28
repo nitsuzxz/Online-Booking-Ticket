@@ -11,7 +11,7 @@
             ?>
                          <script>
                     alert("Credential is invalid")  
-                   window.location.href="Login.html.html";
+                   window.location.href="Login.html";
                 </script>
 <?php
         }
