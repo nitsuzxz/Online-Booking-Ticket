@@ -131,7 +131,7 @@
                   <td style="text-align: center;">RM <?php echo $hall['hall_price'];?></td>
                   <td style="text-align: center;"><?php echo $hall['seat_row'];?></td>
                   <td style="text-align: center;"><?php echo $hall['seat_number'];?></td>
-                  <td><a type="button" href="./hall.php?edit=<?php echo $hallID; ?>&cinema=<?php echo $hall['hall_cinema_id']?>" class="btn btn-outline-success">Edit</a>
+                  <td><a type="button" href="./hall.php?edit=<?php echo $hall['hall_id']; ?>&cinema=<?php echo $hall['hall_cinema_id']?>" class="btn btn-outline-success">Edit</a>
                   &nbsp;
                   <a type="button" href="./hall.php?delete=<?php echo $hallID; ?>" class="btn btn-outline-danger">Delete</a>
                   </td>
