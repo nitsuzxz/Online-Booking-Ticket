@@ -31,7 +31,7 @@ if(isset($_POST["getMovie_currentDate"])){
             
             }
       
-        }else if($currentDate>$startDate){
+        }else if($currentDate>=$startDate){
     
             if($status=='upcoming'){
 
@@ -59,9 +59,9 @@ if(isset($_POST["sel_movie"], $_POST["currentDate"])){
     $currentDate= $_POST['currentDate'];
     
 
-    $query="SELECT aired_date FROM aired WHERE movie_id=$movie_id AND aired_date>='$currentDate' GROUP BY aired_date";
+    $query="SELECT aired_date FROM aired WHERE movie_id=$movie_id AND aired_date>='$currentDate' GROUP BY aired_date ";
    
-    echo $query;
+
     $run=mysqli_query($conn,$query);
     $fetch=mysqli_fetch_all($run,MYSQLI_ASSOC);
 
