@@ -76,7 +76,7 @@
           <button type="button" onclick="addTime()">Select</button>
           </div>
 
-          <table class="table w-75 p-3" style="margin: 0px 20px;"  id="table">
+          <table class="table w-75 p-3" style="margin: 0px 20px;"  id="t_selected">
             <tbody>
             <tr>
 
@@ -508,11 +508,11 @@
 
       function displayTable(){
 
-        $("table tbody tr").remove();
+        $("#t_selected tbody tr").remove();
               for(var i=0; i<selectedTime.length; i++){
 
                 var td= " <tr> <th scope='row'>"+ (i+1)+" </th> <td>"+ selectedTime[i].start+"</td> <td>"+ selectedTime[i].end+"</td> <td><button type='button' class='btn btn-outline-danger col-md-5' onclick='removedata("+ i+")'> remove</button></td></tr>";
-                $("table tbody").append(td);
+                $("#t_selected tbody").append(td);
               }
       }
 
