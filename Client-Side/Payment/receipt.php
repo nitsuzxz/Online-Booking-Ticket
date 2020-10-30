@@ -307,7 +307,7 @@ function navigate(){
     sessionStorage.removeItem("selectedSeat");
     sessionStorage.removeItem("airedID");
 
-      window.location.href = "../index.html";
+      window.location.href = "../transaction/transaction.html";
 }
 </script>
 </html>
