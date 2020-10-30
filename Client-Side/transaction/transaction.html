@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="'viewport" content="width=device-width,initial-scale=1.0">
+		<meta charset="utf-8">
+	<title>MainPage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="../../Asset/swiper.min.css">
+	<link rel="stylesheet" type="text/css" href="../../Asset/style1.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-image: url('../../Asset/images/background.jpg')">
+            <div class="container"> 
+            <a class="navbar-brand" href="../index.html">SHOWTIME</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-lg-auto" id="navTab">
+            </ul>
+          </div>
+        </div>
+        </nav>
+    </header>
+    <body onload="getmovie()">
+
+      <div class="card-dark">
+        <div class="card-body">
+          <H1>Transaction History</H1>
+          <table class="table table-dark">
+            <thead class="">
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Movie</th>
+                <th scope="col">Date</th>
+                <th scope="col">Receipt</th>
+              </tr>
+            </thead>
+            <tbody>
+     
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+  
+    <footer class="site-footer" id="contact">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-sm-6 col-xs-12">
+            <p class="copyright-text">UniKL Student 2020 Jan Intake.
+            </p>
+          </div>
+
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <ul class="social-icons">
+              <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+              <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+              <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>   
+            </ul>
+          </div>
+        </div>
+      </div>
+</footer>
+    </body>
+
+
+	  <script type="text/javascript" src="../Asset/swiper.min.js"></script> 
+    <script> 
+
+  //append login or logout button
+
+    var user_id=JSON.parse(sessionStorage.getItem("user_id"));
+            
+    if(user_id==null){
+      
+      $("#navbarSupportedContent").append('  <button class="btn btn-success my-2 my-sm-0" type="logout" onclick="logout()"><a>Login</a></button>');
+      alert("Please login first");
+      window.location.href = "../Login/login.html";
+    }else{
+      $("#navTab").append('   <li class="nav-item"><a class="nav-link" href="#history">History</a>    </li>');
+      $("#navbarSupportedContent").append('<button class="btn btn-danger my-2 my-sm-0" type="logout" onclick="logout()"><a>Log Out</a></button>');
+    }
+
+  
+
+
+
+
+    function getmovie(){
+
+
+    var formData = new FormData();
+
+    formData.append('fetchhistory', user_id);
+
+    $.ajax({ 
+      url:'./transactionFunction.php',
+      type: 'POST',
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (data){
+
+			  var history=JSON.parse(data);
+        console.log("data1"+history);
+		
+		    	for(var i=0; i< history.length; i++){
+           var trans_id =history[i].trans_id;
+
+           console.log(trans_id);
+            var td= " <tr> <th scope='row'>"+ (i+1)+" </th> <td>"+ history[i].movie_name+"</td> <td>"+ history[i].date+"</td> <td><button type='button' class='btn btn-outline-success col-md-5' onclick='viewReceipt("+trans_id+")'> View</button></td></tr>";
+                $("table tbody").append(td);
+
+      
+
+		    	}
+
+      },
+        error: function(x,e){
+        alert(x+e);
+        }
+    });
+ 
+    }
+
+    function viewReceipt(e){
+
+      console.log("e"+e);
+      sessionStorage.setItem("transaction_id", JSON.stringify(e));
+      window.location.href="../Payment/receipt.php";
+        
+    }
+
+
+    function logout(){
+
+      sessionStorage.clear();
+      window.location.href = "../Login/login.html";
+    }
+
+
+    </script>
+</html>
