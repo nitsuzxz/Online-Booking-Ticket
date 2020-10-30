@@ -21,19 +21,8 @@
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-lg-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#home">Movie<span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#date">Date</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#location">Location</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#contact">Contact Us</a>
-              </li>
+            <ul class="navbar-nav ml-lg-auto" id="navTab">
+        
             </ul>
           </div>
         </div>
@@ -135,6 +124,7 @@
     if(user_id==null){
       $("#navbarSupportedContent").append('  <button class="btn btn-success my-2 my-sm-0" type="logout" onclick="logout()"><a>Login</a></button>');
     }else{
+      $("#navTab").append('   <li class="nav-item"><a class="nav-link" href="./transaction/transaction.html">History</a>    </li>');
       $("#navbarSupportedContent").append('<button class="btn btn-danger my-2 my-sm-0" type="logout" onclick="logout()"><a>Log Out</a></button>');
     }
 
