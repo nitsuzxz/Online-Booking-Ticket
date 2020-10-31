@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+
+<?php 
+
+
+
+?>
 <html>
 
 	<head>
@@ -13,6 +19,7 @@
 			<a href="../hall/hall.php">Manage Halls</a>
 			<a href="../cinema/cinema.php">Manage Cinemas</a>
 			<a href="../staff/staff.php">Manage Staff</a>
+			<a href="../index.php">LOGOUT</a>
 		</div>
 	</body>
 
