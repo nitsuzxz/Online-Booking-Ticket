@@ -63,7 +63,7 @@ include './addCinema.php'
               <?php $i=1; foreach($cinemaList as $cinemaRes) : ?>  
                 <tr>
                   
-                  <td><?php echo $i++; ?></td>
+                  <td><?php $cinID=$cinemaRes['cinema_id']; echo $i++; ?></td>
                   <td><?php echo $cinemaRes['cinema_name']; ?></td>
                   <td><?php echo $cinemaRes['cinema_location']; ?></td>
                   <td>
