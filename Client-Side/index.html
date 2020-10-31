@@ -85,7 +85,9 @@
     <div class="card-body">
       <div class="section layout_padding" >
         <div class="container">
-          <div id="cinemaContainer"></div>         
+          <div id="cinemaContainer">
+            
+          </div>         
           <div id="airedContainer" ></div>
         </div>
       </div>
@@ -283,10 +285,14 @@
 
               if(movie_containerID){
                 console.log("exist");
+                movie_containerID =airedDetails[i].cinema_name;
+                movie_containerID =movie_containerID.replace(/^\s+|\s+$/g, "");
               }else{
                 console.log("not exist");
                 movie_containerID =airedDetails[i].cinema_name;
-                movie_containerID =movie_containerID.replace(/\s+/g, '');
+                movie_containerID =movie_containerID.replace(/^\s+|\s+$/g, "");
+
+           
                 console.log("read"+movie_containerID);
                 $("#cinemaContainer").append('<hr/>');
                 $("#cinemaContainer").append('<div id="group'+ movie_containerID+'" class="btn btn-light" >   <a type="button" data-toggle="collapse" data-target="#'+ movie_containerID+'" >'+movie_containerID+'</a></div>');
@@ -296,10 +302,10 @@
               }
 
               var original_time=airedDetails[i].aired_startTime;
-              console.log("ori"+ original_time);
-
+          
               var hour=original_time.split(":")[0];
-              var min=original_time.split(":")[0];
+              var min=original_time.split(":")[1];
+          
               var state;
 
               if(hour>12){
@@ -310,9 +316,13 @@
               }
 
               finalTime=hour+":"+min+" "+state;
+              // console.log("ori"+ original_time);
+              // console.log("final"+finalTime);
+              // console.log("min"+min);
+              
+              console.log("appendtime"+movie_containerID);
 
-
-              $("#cinemaContainer").append('<div><div class="collapse" id="'+ movie_containerID+'" ><a type="button" class="btn btn-light" onclick="navigate('+airedDetails[i].aired_id+')" > <div class="timeHall"> <div class="time"> '+finalTime+'</div> <div class="time"><div class="symbol">_________</div></div>  <div class="time">'+ airedDetails[i].hall_name+'</div></div></a></div></div>')
+              $("#cinemaContainer").append('<div class="row"><div class="col"><div class="collapse" id="'+ movie_containerID+'" ><a type="button" class="btn btn-light" onclick="navigate('+airedDetails[i].aired_id+')" > <div class="timeHall"> <div class="time"> '+finalTime+'</div> <div class="time"><div class="symbol">_________</div></div>  <div class="time">'+ airedDetails[i].hall_name+'</div></div></a></div></div>')
           
            
               
