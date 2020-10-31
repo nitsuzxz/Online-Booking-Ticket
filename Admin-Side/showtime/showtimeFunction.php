@@ -25,7 +25,8 @@ include ('../../Config/db_config.php');
     INNER JOIN hall ON aired.hall_id=hall.hall_id 
     INNER JOIN cinema on hall.hall_cinema_id=cinema.cinema_id
     INNER JOIN movie on movie.movie_id = aired.movie_id
-    WHERE movie.movie_status="airing" OR movie.movie_status="upcoming"';
+    WHERE movie.movie_status="airing" OR movie.movie_status="upcoming"
+    ORDER BY aired.aired_date DESC ';
 
     $res = mysqli_query($conn, $query);
     $showtimeList = mysqli_fetch_all($res, MYSQLI_ASSOC);
