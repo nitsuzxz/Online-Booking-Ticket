@@ -30,8 +30,8 @@
                     $_SESSION['user_type'] = 'admin'; 
                     header("Location: ../dashboard/dashboard.php");
                 }
-                else if ($adminType == 'user') {
-                    $_SESSION['user_type'] = 'user'; 
+                else if ($adminType == 'staff') {
+                    $_SESSION['user_type'] = 'staff'; 
                     header("Location: ../dashboard/dashboard.php");
                 }
             }
